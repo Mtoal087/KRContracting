@@ -1,0 +1,27 @@
+<div class="top">
+  <form [formGroup]="form" target="_blank">
+    <div class="start">
+      <label for="start">Starting Locator:</label>
+      <input type="text" id="start" formControlName="start" required />
+    </div>
+    <div class="end">
+      <label for="end">Ending Locator:</label>
+      <input
+        type="text"
+        id="end"
+        formControlName="end"
+        (keydown.enter)="submitForm()"
+        required
+      />
+    </div>
+  </form>
+  <div class="btns">
+    <button id="submit" type="submit" (click)="submitForm()">Submit</button>
+    <button id="reset" type="reset" (click)="resetForm()">Reset</button>
+  </div>
+  @if (error) {
+    <div class="error">
+      <h2>Invalid input! Please try again.</h2>
+    </div>
+  }
+</div>
