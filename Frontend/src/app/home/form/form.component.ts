@@ -1,11 +1,10 @@
-import { Component, output } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { FormSubmitService } from '../../services/formSubmit.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +20,6 @@ export class FormComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private formSubmitService: FormSubmitService,
     private router: Router,
   ) {
     this.form = this.formBuilder.group({
@@ -40,10 +38,9 @@ export class FormComponent {
       return;
     }
 
-    this.formSubmitService.setStartValue(start);
-    this.formSubmitService.setEndValue(end);
-
-    this.router.navigate(['/results']);
+    this.router.navigate(['/results'], {
+      queryParams: { start: start, end: end },
+    });
 
     this.form.reset();
   }
