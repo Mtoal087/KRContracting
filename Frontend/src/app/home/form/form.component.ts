@@ -34,19 +34,18 @@ export class FormComponent {
 
     if (start.length < 2 || end.length < 2) {
       this.error = true;
-      console.error("Start or End don't have the right amount of characters");
+      console.error(this.error);
       return;
     }
 
     this.router.navigate(['/results'], {
       queryParams: { start: start, end: end },
     });
-
-    this.form.reset();
   }
 
   resetForm() {
-    this.form.reset();
+    this.form.get('start')?.setValue('');
+    this.form.get('end')?.setValue('');
     this.error = false;
   }
 }

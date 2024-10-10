@@ -56,6 +56,10 @@ form {
   justify-content: center;
 }
 
+button {
+  cursor: pointer;
+}
+
 #submit {
   background: var(--light-green);
   color: var(--black);
