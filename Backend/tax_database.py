@@ -33,7 +33,10 @@ COLUMNS = ["LocatorNumber",
                 "TotalAmmountDue",
                 "IsParcelOnPostThirdsList",
                 "IsPropertyOnPostThirdList",
-                "MapLink"]
+                "MapLink",
+                "TotalAmountDueOverAppraisedValue2024",
+                "TotalAmountDueOverAssessedTotal2024",
+                "TotalTaxesPlusTotalSewerLateralFee"]
 
 def create_database() -> sql.Cursor:
     db = sql.connect("TaxInfoLookup.db")
@@ -73,12 +76,16 @@ def create_database() -> sql.Cursor:
                 IsParcelOnPostThirdsList TEXT,
                 IsPropertyOnPostThirdList TEXT,
 
-                MapLink TEXT)""")
+                MapLink TEXT,
+                
+                TotalAmountDueOverAppraisedValue2024,
+                TotalAmountDueOverAssessedTotal2024,
+                TotalTaxesPlusTotalSewerLateralFee)""")
     return cur
 
-#Insets a row into the database. Requires all 33 atributes to be specified
+#Insets a row into the database. Requires all 36 atributes to be specified
 def insert_row(cur:sql.Cursor, attribute_values:Tuple) -> None:
-    cur.execute("INSERT INTO TaxInfoLookup VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", attribute_values)
+    cur.execute("INSERT INTO TaxInfoLookup VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", attribute_values)
 
 #Takes a dictionary of column names and values and updates all values in the database under the specified locator number.
 def update_row(cur:sql.Cursor, locator_number: str, attributes:dict)-> None:
