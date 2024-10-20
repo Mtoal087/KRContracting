@@ -6,6 +6,7 @@ COLUMNS = ["LocatorNumber",
                 "SiteCode",
                 "TaxYear",
                 "CityCode",
+                "DestinationCode",
                 "OwnersName",
                 "TaxingAddress",
                 "CareOfName",
@@ -32,13 +33,13 @@ COLUMNS = ["LocatorNumber",
                 "TotalSewerLateralFee",
                 "TotalAmmountDue",
                 "IsParcelOnPostThirdsList",
-                "IsPropertyOnPostThirdList",
+                "IsGoingToBeOnPostThirdList",
                 "MapLink",
                 "TotalAmountDueOverAppraisedValue2024",
                 "TotalAmountDueOverAssessedTotal2024",
                 "TotalTaxesPlusTotalSewerLateralFee"]
 
-def create_database() -> sql.Cursor:
+def create_database() -> Tuple[sql.Connection, sql.Cursor]:
     db = sql.connect("TaxInfoLookup.db")
     cur = db.cursor()
     cur.execute("""CREATE TABLE IF NOT EXISTS TaxInfoLookup
@@ -47,6 +48,7 @@ def create_database() -> sql.Cursor:
                 SiteCode TEXT,
                 TaxYear TEXT,
                 CityCode TEXT,
+                DestinationCode TEXT,
                 OwnersName TEXT,
                 TaxingAddress TEXT,
                 CareOfName TEXT,
@@ -74,25 +76,24 @@ def create_database() -> sql.Cursor:
                 TotalSewerLateralFee TEXT,
                 TotalAmmountDue TEXT,
                 IsParcelOnPostThirdsList TEXT,
-                IsPropertyOnPostThirdList TEXT,
+                IsGoingToBeOnPostThirdList TEXT,
 
                 MapLink TEXT,
                 
-                TotalAmountDueOverAppraisedValue2024,
-                TotalAmountDueOverAssessedTotal2024,
-                TotalTaxesPlusTotalSewerLateralFee)""")
-    return cur
+                TotalAmountDueOverAppraisedValue2024 TEXT,
+                TotalAmountDueOverAssessedTotal2024 TEXT,
+                TotalTaxesPlusTotalSewerLateralFee TEXT)""")
+    return (db, cur)
 
-#Insets a row into the database. Requires all 36 atributes to be specified
+#Insets a row into the database. Requires all 37 atributes to be specified
 def insert_row(cur:sql.Cursor, attribute_values:Tuple) -> None:
-    cur.execute("INSERT INTO TaxInfoLookup VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", attribute_values)
+    cur.execute("INSERT INTO TaxInfoLookup VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", attribute_values)
 
 #Takes a dictionary of column names and values and updates all values in the database under the specified locator number.
-def update_row(cur:sql.Cursor, locator_number: str, attributes:dict)-> None:
-    for column in attributes:
-        value = attributes[column]
-        if column in COLUMNS:     
-            cur.execute(f"UPDATE TaxInfoLookup SET {column} = ? WHERE LocatorNumber = ?", (value, locator_number))
+def update_row(cur: sql.Cursor, locator_number: str, attribute_values: Tuple)-> None:
+    assignments = ", ".join(f"{column} = ?" for column in COLUMNS[1:])
+    query = f"UPDATE TaxInfoLookup SET {assignments} WHERE LocatorNumber = ?"
+    cur.execute(query, (*attribute_values[1:], locator_number))
 
 #Returns a row from the database with the given primary key
 def get_row(cur:sql.Cursor, locator_number: str) -> Tuple:
