@@ -4,6 +4,7 @@ import shared_functions
 from pathlib import Path
 from typing import List, Tuple
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -24,7 +25,6 @@ NEW_SEARCH_BUTTON_ID: str = 'ctl00_MainContent_contentHeaderLeft'
 TIMEOUT: float = 1.0
 MAX_DIGIT: int = 10
 ALPHA: List[str] = [chr(i) for i in range(ord('A'), ord('Z') + 1)]
-ITERATIONS: int = 1
 
 
 def get_locator_numbers(start: str, end: str) -> List[str]:
@@ -59,64 +59,65 @@ def get_locator_numbers(start: str, end: str) -> List[str]:
 
 def process_locator_number(driver: webdriver, locator_number: str) -> List[str] | bool:
     """Process a locator number and return the result."""
-    _logger.info(locator_number)
-    no_security_check = shared_functions.start_scraping(driver, locator_number)
-    if isinstance(no_security_check, bool):
+    try:
+        _logger.info(locator_number)
+        no_security_check = shared_functions.start_scraping(driver, locator_number)
+        if isinstance(no_security_check, bool):
+            return False
+
+        locator_numbers: List[str] = []
+        while True:
+            table_rows = driver.find_elements(By.XPATH, TABLE_ROWS_PATH)
+            for row in table_rows:
+                cells = row.find_elements(By.TAG_NAME, TD)
+                if len(cells) > 2:
+                    if cells[2].text.strip() not in locator_numbers:
+                        locator_numbers.append(cells[2].text.strip())
+            try:
+                next_button = WebDriverWait(driver, TIMEOUT).until(
+                    EC.element_to_be_clickable((By.ID, NEXT_BUTTON_ID))
+                )
+                next_button.click()
+                WebDriverWait(driver, TIMEOUT).until(
+                    EC.staleness_of(next_button)
+                )
+            except Exception:
+                break
+
+        return locator_numbers
+    except TimeoutException:
         return False
-
-    locator_numbers: List[str] = []
-    while True:
-        table_rows = driver.find_elements(By.XPATH, TABLE_ROWS_PATH)
-        for row in table_rows:
-            cells = row.find_elements(By.TAG_NAME, TD)
-            if len(cells) > 2:
-                if cells[2].text.strip() not in locator_numbers:
-                    locator_numbers.append(cells[2].text.strip())
-        try:
-            next_button = WebDriverWait(driver, TIMEOUT).until(
-                EC.element_to_be_clickable((By.ID, NEXT_BUTTON_ID))
-            )
-            next_button.click()
-            WebDriverWait(driver, TIMEOUT).until(
-                EC.staleness_of(next_button)
-            )
-        except Exception:
-            break
-
-    return locator_numbers
 
 
 def find_all_locator_numbers(locator_numbers_to_search: List[str]) -> List[str]:
     """Find all locator numbers."""
-    count: int = 0
-    while count < ITERATIONS:
-        _logger.info(locator_numbers_to_search[0])
-        _logger.info(locator_numbers_to_search[-1])
+    _logger.info(locator_numbers_to_search[0])
+    _logger.info(locator_numbers_to_search[-1])
 
-        result: List[str] = []
-        for locator_number in locator_numbers_to_search:
+    result: List[str] = []
+    driver = shared_functions.get_driver()
+    for locator_number in locator_numbers_to_search:
+        driver.get(WEBSITE)
+        output = process_locator_number(driver, locator_number)
+        security_check_or_timeout: bool = True if isinstance(output, bool) else False
+        while security_check_or_timeout:
+            driver.quit()
             driver = shared_functions.get_driver()
             driver.get(WEBSITE)
             output = process_locator_number(driver, locator_number)
-            security_check: bool = True if isinstance(output, bool) else False
-            while security_check:
-                driver.quit()
-                driver = shared_functions.get_driver()
-                driver.get(WEBSITE)
-                output = process_locator_number(driver, locator_number)
 
-                if not isinstance(output, bool):
-                    security_check = False
-            result.extend(output)
-            driver.quit()
-            find_all_information(output, _logger)
-        count += 1
-        outputfile: Path = Path.cwd() / f"""locator_numbers_{locator_numbers_to_search[0]}_{locator_numbers_to_search[-1]}.txt"""
-        text: str = ""
-        for number in result:
-            text += number + "\n"
-        outputfile.write_text(text)
-        return result
+            if not isinstance(output, bool):
+                security_check_or_timeout = False
+        result.extend(output)
+        if len(output) > 0:
+            outputfile: Path = Path.cwd() / f"""locator_numbers_{output[0]}_{output[-1]}.txt"""
+            text: str = ""
+            for number in output:
+                text += number + "\n"
+            outputfile.write_text(text)
+        driver = find_all_information(output, _logger, driver)
+    driver.quit()
+    return result
 
 
 def cli() -> Tuple[str, str]:
