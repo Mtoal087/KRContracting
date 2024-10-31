@@ -15,7 +15,6 @@ def get_driver() -> webdriver:
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
-    options.binary_location = "/usr/bin/google-chrome"
     driver = webdriver.Chrome(options=options)
 
     # driver = webdriver.Chrome()
