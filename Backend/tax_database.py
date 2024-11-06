@@ -40,7 +40,7 @@ COLUMNS = ["LocatorNumber",
                 "TotalTaxesPlusTotalSewerLateralFee"]
 
 def create_database() -> Tuple[sql.Connection, sql.Cursor]:
-    db = sql.connect("TaxInfoLookup.db")
+    db = sql.connect("Backend/TaxInfoLookup.db")
     cur = db.cursor()
     cur.execute("""CREATE TABLE IF NOT EXISTS TaxInfoLookup
                 (LocatorNumber TEXT PRIMARY KEY NOT NULL,
@@ -98,3 +98,11 @@ def update_row(cur: sql.Cursor, locator_number: str, attribute_values: Tuple)-> 
 #Returns a row from the database with the given primary key
 def get_row(cur:sql.Cursor, locator_number: str) -> Tuple:
     return cur.execute("SELECT * FROM TaxInfoLookup WHERE LocatorNumber = ?", (locator_number,)).fetchone()
+
+#Print contents of the database
+def display_database(cur:sql.Cursor) -> None:
+    database = cur.execute("SELECT * FROM TaxInfoLookup").fetchall()
+    for entry in database:
+        for column in range(len(COLUMNS)):
+            print(COLUMNS[column] + " : " + entry[column])
+        print(" ")
