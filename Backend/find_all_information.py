@@ -2,7 +2,7 @@ import logging
 import sqlite3 as sql
 import shared_functions
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -74,88 +74,42 @@ def get_information(driver: webdriver, locator_number: str, cur: sql.Cursor, _lo
         # Parse the Owner & Assessment Page
         owner_table = driver.find_element(By.CSS_SELECTOR, OWNER_TABLE_ROWS_CSS)
         owner_table_rows = owner_table.find_elements(By.TAG_NAME, TR)
-        
-        # Initialize variables to None or empty strings
-        tax_year = ""
-        tax_district = ""
-        city_code = ""
-        site_code = ""
-        destination_code = ""
-        owners_name = ""
-        taxing_address = ""
-        care_of_name = ""
-        mailing_address = ""
-        city_name = ""
-        subdivision_name = ""
-        legal_description = ""
-        lot_number = ""
-        block_number = ""
-        lot_dimensions = ""
-        total_acres = ""
-        tax_code_description = ""
-        land_use_code = ""
-        deed_document_number = ""
-        school_district = ""
-        county_council_district = ""
 
         # Iterate over the table rows
+        owner_data: Dict[str, str] = {}
+
+        desired_headers = [
+            "Tax Year:", "Tax District:", "City Code:", "Site Code:", 
+            "Destination Code:", "Owner's Name:", "Taxing Address:", 
+            "Care-Of Name:", "Mailing Address:", "City Name:", 
+            "Subdivision Name:", "Legal Description:", "Lot Number:", 
+            "Block Number:", "Lot Dimensions:", "Total Acres:", 
+            "Tax Code - Description:", "Land Use Code:", "Deed Document Number:", 
+            "School District:", "County Council District:"
+        ]
         for row in owner_table_rows:
             cells = row.find_elements(By.TAG_NAME, "td")
             
-            # Check if the row has at least two cells (header and data)
-            if len(cells) >= 2:
-                header_text = cells[0].text.strip()
-                data_text = cells[1].text.strip()
-                
-                # Assign values to existing variables based on header text
-                if header_text == "Tax Year:":
-                    tax_year = data_text
-                elif header_text == "Tax District:":
-                    tax_district = data_text
-                elif header_text == "City Code:":
-                    city_code = data_text
-                elif header_text == "Site Code:":
-                    site_code = data_text
-                elif header_text == "Destination Code:":
-                    destination_code = data_text
-                elif header_text == "Owner's Name:":
-                    owners_name = data_text
-                elif header_text == "Taxing Address:":
-                    taxing_address = data_text
-                elif header_text == "Care-Of Name:":
-                    care_of_name = data_text
-                elif header_text == "Mailing Address:":
-                    mailing_address = data_text
-                elif header_text == "City Name:":
-                    city_name = data_text
-                elif header_text == "Subdivision Name:":
-                    subdivision_name = data_text
-                elif header_text == "Legal Description:":
-                    legal_description = data_text
-                elif header_text == "Lot Number:":
-                    lot_number = data_text
-                elif header_text == "Block Number:":
-                    block_number = data_text
-                elif header_text == "Lot Dimensions:":
-                    lot_dimensions = data_text
-                elif header_text == "Total Acres:":
-                    total_acres = data_text
-                elif header_text == "Tax Code - Description:":
-                    tax_code_description = data_text
-                elif header_text == "Land Use Code:":
-                    land_use_code = data_text
-                elif header_text == "Deed Document Number:":
-                    deed_document_number = data_text
-                elif header_text == "School District:":
-                    school_district = data_text
-                elif header_text == "County Council District:":
-                    county_council_district = data_text
+            # Iterate through all the cells in the row, checking for the desired header in each one
+            for i in range(0, len(cells), 2):  # Step by 2 to handle pairs of (header, data)
+                if i + 1 < len(cells):  # Ensure there is a valid "data" cell after "header"
+                    header_text = cells[i].text.strip()
+                    data_text = cells[i + 1].text.strip()
+
+                    # Only add to the dictionary if the header is one we care about
+                    if header_text in desired_headers:
+                        owner_data[header_text] = data_text
 
         # Locate the rows of interest in the assessment table
-        assessment_table_rows = driver.find_element(By.XPATH, ASSESSMENT_TABLE_ROWS_PATH)
-        property_class: str = assessment_table_rows.find_elements(By.TAG_NAME, TD)[0].text.strip()
-        appraised_total: str = assessment_table_rows.find_elements(By.TAG_NAME, TD)[3].text.strip().replace(',', '')
-        assessed_total: str = assessment_table_rows.find_elements(By.TAG_NAME, TD)[6].text.strip().replace(',', '')
+        try:
+            assessment_table_rows = driver.find_element(By.XPATH, ASSESSMENT_TABLE_ROWS_PATH)
+            property_class: str = assessment_table_rows.find_elements(By.TAG_NAME, TD)[0].text.strip()
+            appraised_total: str = assessment_table_rows.find_elements(By.TAG_NAME, TD)[3].text.strip().replace(',', '')
+            assessed_total: str = assessment_table_rows.find_elements(By.TAG_NAME, TD)[6].text.strip().replace(',', '')
+        except NoSuchElementException:
+            property_class: str = "N/A"
+            appraised_total: str = "N/A"
+            assessed_total: str = "N/A"
 
         tax_history_link = driver.find_element(By.ID, TAX_INFO_BUTTON_ID)
         tax_history_link.click()
@@ -213,8 +167,11 @@ def get_information(driver: webdriver, locator_number: str, cur: sql.Cursor, _lo
             total_penalties: str = f"{sums[2]:.2f}"
             total_sewer_lateral_fee: str = f"{sums[3]:.2f}"
             total_amount_due: str = f"{sums[4]:.2f}"
-            total_amount_due_over_appraised_value: str = f"{(float(total_amount_due)/float(appraised_total)):.2f}"
-            total_amount_due_over_assessed_value: str = f"{(float(total_amount_due)/float(assessed_total)):.2f}"
+            try:
+                total_amount_due_over_appraised_value: str = f"{(float(total_amount_due)/float(appraised_total)):.2f}"
+                total_amount_due_over_assessed_value: str = f"{(float(total_amount_due)/float(assessed_total)):.2f}"
+            except ValueError:
+                pass
             total_taxes_plus_total_sewer_lateral_fee: str = f"{(float(total_taxes) + float(total_sewer_lateral_fee)):.2f}"
             is_parcel_on_post_thirds_list: str = "False"
             is_going_to_be_on_post_third_list: str = "False"
@@ -238,27 +195,27 @@ def get_information(driver: webdriver, locator_number: str, cur: sql.Cursor, _lo
 
         data: Tuple = (
             locator_number,
-            tax_district,
-            site_code,
-            tax_year,
-            city_code,
-            destination_code,
-            owners_name,
-            taxing_address,
-            care_of_name,
-            mailing_address,
-            city_name,
-            subdivision_name,
-            legal_description,
-            lot_number,
-            lot_dimensions,
-            block_number,
-            total_acres,
-            land_use_code,
-            tax_code_description,
-            deed_document_number,
-            school_district,
-            county_council_district,
+            owner_data.get("Tax District:"),
+            owner_data.get("Site Code:"),
+            owner_data.get("Tax Year:"),
+            owner_data.get("City Code:"),
+            owner_data.get("Destination Code:"),
+            owner_data.get("Owner's Name:"),
+            owner_data.get("Taxing Address:"),
+            owner_data.get("Care-Of Name:"),
+            owner_data.get("Mailing Address:"),
+            owner_data.get("City Name:"),
+            owner_data.get("Subdivision Name:"),
+            owner_data.get("Legal Description:"),
+            owner_data.get("Lot Number:"),
+            owner_data.get("Block Number:"),
+            owner_data.get("Lot Dimensions:"),
+            owner_data.get("Total Acres:"),
+            owner_data.get("Land Use Code:"),
+            owner_data.get("Tax Code - Description:"),
+            owner_data.get("Deed Document Number:"),
+            owner_data.get("School District:"),
+            owner_data.get("County Council District:"),
             appraised_total,
             assessed_total,
             property_class,
@@ -275,6 +232,7 @@ def get_information(driver: webdriver, locator_number: str, cur: sql.Cursor, _lo
             total_amount_due_over_assessed_value,
             total_taxes_plus_total_sewer_lateral_fee,
         )
+        # print(data)
         row = tax_database.get_row(cur, data[0])
         if row is None:
             tax_database.insert_row(cur, data)

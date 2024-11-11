@@ -122,7 +122,7 @@ def find_all_locator_numbers(locator_numbers_to_search: List[str]) -> List[str]:
 
 def cli() -> Tuple[str, str]:
     """Parse the command line arguments."""
-    parser = argparse.ArgumentParser(description="Vulnerability Scanner")
+    parser = argparse.ArgumentParser(description="St. Louis Real Estate Web Scraper.")
     parser.add_argument(
         "-s",
         "--start",
