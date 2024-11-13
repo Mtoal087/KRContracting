@@ -229,7 +229,7 @@ header {
     padding-top: 60px;
     margin-bottom: 20px;
 
-    :first-child() {
+    :first-child {
       margin-top: 20vh;
     }
 
