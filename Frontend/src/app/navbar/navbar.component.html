@@ -1,0 +1,24 @@
+<header>
+  <a routerLink="/" class="logo"><app-logo /></a>
+  <nav class="full">
+    <a routerLink="/" routerLinkActive="active">Home</a>
+    <a routerLink="/how-to-use" routerLinkActive="active">How To Use</a>
+  </nav>
+  <div
+    class="small"
+    [ngClass]="isMenuOpen ? 'open' : ''"
+    (click)="expandMenu()"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+@if (isMenuOpen) {
+  <div class="small-links" (click)="expandMenu()">
+    <a routerLink="/">Home</a>
+    <a routerLink="/how-to-use">How To Use</a>
+  </div>
+}
+
+<router-outlet></router-outlet>
