@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+
+:root {
+  --green: #6a9c89;
+  --light-green: #c4dad2;
+  --white: #e9efec;
+  --dark-green: #16423c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--white);
+  color: var(--green);
+  font-family: "Libre Baskerville";
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
