@@ -16,6 +16,7 @@ OWNER_TABLE_ROWS_CSS: str = 'table.table.table-bordered'
 TR: str = "tr"
 ASSESSMENT_TABLE_ROWS_PATH: str = "//table[@id='asmt-year-2024']/tbody/tr" # THIS WILL NEED TO BE UPDATED EVERY YEAR
 TAX_INFO_BUTTON_ID: str = 'ctl00_MainContent_NavLinks1_TaxDueLB'
+TAX_INFO_HEADER_ID: str = 'ctl00_MainContent_contentHeaderCenter'
 TAXES_ARE_DUE_ID: str = 'ctl00_MainContent_TaxesDueData1_labelPageHeader'
 TAX_INFO_TABLE_ID: str = 'ctl00_MainContent_TaxesDueData1_tableTaxDueRE'
 POST_THIRDS_ID: str = 'ctl00_MainContent_TaxesDueData1_panelREMessage'
@@ -130,68 +131,83 @@ def get_information(driver: webdriver, locator_number: str, cur: sql.Cursor, _lo
         tries: int = 0
         while tries < retries:
             try:
-                tax_info_title = driver.find_element(By.ID, TAXES_ARE_DUE_ID)
-                if tax_info_title.is_displayed():
+                tax_info_header = driver.find_element(By.ID, TAX_INFO_HEADER_ID)
+                if tax_info_header.is_displayed():
                     break
             except NoSuchElementException:
                 tries += 1
             except StaleElementReferenceException:
                 tries += 1
-        
         if tries == retries:
-            return False
-        if tax_info_title.text == "Taxes Are Due":
-            table = driver.find_element(By.ID, TAX_INFO_TABLE_ID)
-            # Get the rows in the table
-            rows = table.find_elements(By.TAG_NAME, "tr")
-            # Exclude header and total row for valid data rows
-            data_rows = rows[2:-1]  # Adjusted to start from index 2 (first data row) and exclude last row (total)
-            # Get the number of years with unpaid taxes
-            number_of_years_with_unpaid_taxes: str = str(len(data_rows))
-            # Extract the column data (excluding the first column)
-            columns = []
-            for row in data_rows:
-                columns.append([cell.text for cell in row.find_elements(By.TAG_NAME, "td")[1:]])
-            # Calculate the sum of each column
-            sums = [0] * 5  # Initialize a list to hold sums for each column
-            for row in data_rows:
-                cells = row.find_elements(By.TAG_NAME, "td")[1:]  # Get cells excluding the first column
-                for i, cell in enumerate(cells):
-                    if i < 5:  # Ensure we don't go out of range
-                        if '\n' in  cell.text:  # If the cell contains a newline, split it
-                            sums[i] += float(cell.text.split('\n')[0].replace('$', '').replace(',', '').strip())  # Clean and convert to float
-                        else:
-                            sums[i] += float(cell.text.replace('$', '').replace(',', '').strip())  # Clean and convert to float
-            total_taxes: str = f"{sums[0]:.2f}"
-            total_interest: str = f"{sums[1]:.2f}"
-            total_penalties: str = f"{sums[2]:.2f}"
-            total_sewer_lateral_fee: str = f"{sums[3]:.2f}"
-            total_amount_due: str = f"{sums[4]:.2f}"
-            try:
-                total_amount_due_over_appraised_value: str = f"{(float(total_amount_due)/float(appraised_total)):.2f}"
-                total_amount_due_over_assessed_value: str = f"{(float(total_amount_due)/float(assessed_total)):.2f}"
-            except ValueError:
-                pass
-            total_taxes_plus_total_sewer_lateral_fee: str = f"{(float(total_taxes) + float(total_sewer_lateral_fee)):.2f}"
-            is_parcel_on_post_thirds_list: str = "False"
-            is_going_to_be_on_post_third_list: str = "False"
+            tax_info_header = None
 
+        if tax_info_header:
             retries: int = 3
             tries: int = 0
             while tries < retries:
                 try:
-                    post_message_element = driver.find_element(By.ID, POST_THIRDS_ID)
-                    if post_message_element.is_displayed():
-                        post_thirds_message: str = post_message_element.find_element(By.CLASS_NAME, POST_THIRDS_CLASS).text
-                        if "This property will be offered for sale in the August tax sale for the third and final time and sold." in post_thirds_message:
-                            is_going_to_be_on_post_third_list = "True"
-                        elif "This parcel is on the Post Third Sale List and is subject to sale for unpaid taxes with no redemption period." in post_thirds_message:
-                            is_parcel_on_post_thirds_list = "True"
+                    tax_info_title = driver.find_element(By.ID, TAXES_ARE_DUE_ID)
+                    if tax_info_title.is_displayed():
                         break
                 except NoSuchElementException:
-                    break
+                    tries += 1
                 except StaleElementReferenceException:
                     tries += 1
+            
+            if tries == retries:
+                return False
+            if tax_info_title.text == "Taxes Are Due":
+                table = driver.find_element(By.ID, TAX_INFO_TABLE_ID)
+                # Get the rows in the table
+                rows = table.find_elements(By.TAG_NAME, "tr")
+                # Exclude header and total row for valid data rows
+                data_rows = rows[2:-1]  # Adjusted to start from index 2 (first data row) and exclude last row (total)
+                # Get the number of years with unpaid taxes
+                number_of_years_with_unpaid_taxes: str = str(len(data_rows))
+                # Extract the column data (excluding the first column)
+                columns = []
+                for row in data_rows:
+                    columns.append([cell.text for cell in row.find_elements(By.TAG_NAME, "td")[1:]])
+                # Calculate the sum of each column
+                sums = [0] * 5  # Initialize a list to hold sums for each column
+                for row in data_rows:
+                    cells = row.find_elements(By.TAG_NAME, "td")[1:]  # Get cells excluding the first column
+                    for i, cell in enumerate(cells):
+                        if i < 5:  # Ensure we don't go out of range
+                            if '\n' in  cell.text:  # If the cell contains a newline, split it
+                                sums[i] += float(cell.text.split('\n')[0].replace('$', '').replace(',', '').strip())  # Clean and convert to float
+                            else:
+                                sums[i] += float(cell.text.replace('$', '').replace(',', '').strip())  # Clean and convert to float
+                total_taxes: str = f"{sums[0]:.2f}"
+                total_interest: str = f"{sums[1]:.2f}"
+                total_penalties: str = f"{sums[2]:.2f}"
+                total_sewer_lateral_fee: str = f"{sums[3]:.2f}"
+                total_amount_due: str = f"{sums[4]:.2f}"
+                try:
+                    total_amount_due_over_appraised_value: str = f"{(float(total_amount_due)/float(appraised_total)):.2f}"
+                    total_amount_due_over_assessed_value: str = f"{(float(total_amount_due)/float(assessed_total)):.2f}"
+                except ValueError:
+                    pass
+                total_taxes_plus_total_sewer_lateral_fee: str = f"{(float(total_taxes) + float(total_sewer_lateral_fee)):.2f}"
+                is_parcel_on_post_thirds_list: str = "False"
+                is_going_to_be_on_post_third_list: str = "False"
+
+                retries: int = 3
+                tries: int = 0
+                while tries < retries:
+                    try:
+                        post_message_element = driver.find_element(By.ID, POST_THIRDS_ID)
+                        if post_message_element.is_displayed():
+                            post_thirds_message: str = post_message_element.find_element(By.CLASS_NAME, POST_THIRDS_CLASS).text
+                            if "This property will be offered for sale in the August tax sale for the third and final time and sold." in post_thirds_message:
+                                is_going_to_be_on_post_third_list = "True"
+                            elif "This parcel is on the Post Third Sale List and is subject to sale for unpaid taxes with no redemption period." in post_thirds_message:
+                                is_parcel_on_post_thirds_list = "True"
+                            break
+                    except NoSuchElementException:
+                        break
+                    except StaleElementReferenceException:
+                        tries += 1
 
         data: Tuple = (
             locator_number,
