@@ -1,7 +1,45 @@
-<div class="main">
-  <h1>Start: {{ start }}</h1>
-  <h1>End: {{ end }}</h1>
-</div>
-<div class="btn">
-  <button><a href="/home">Home</a></button>
+<a href="/home">&LeftArrow; Back To Home</a>
+<div class="table">
+  <table>
+    <tr>
+      <th>LocatorNumber</th>
+      <th>City Name</th>
+      <th>Lot Dimensions</th>
+      <th>Lot Number</th>
+      <th>Mailing Address</th>
+      <th>Owner's Name</th>
+      <th>Property Class</th>
+      <th>School District</th>
+      <th>Site Code</th>
+      <th>Subdivision Name</th>
+      <th>Tax District</th>
+      <th>Number of Years With Unpaid Taxes</th>
+      <th>Total Interest</th>
+      <th>Total Penalties</th>
+      <th>Total Sewer Lateral Fee</th>
+      <th>Total Taxes</th>
+    </tr>
+    @if (dataArray && dataArray.length > 0) {
+      @for (item of dataArray; track item) {
+        <tr>
+          <td>{{ displayValue(item.LocatorNumber) }}</td>
+          <td>{{ displayValue(item.CityName) }}</td>
+          <td>{{ displayValue(item.LotDimensions) }}</td>
+          <td>{{ displayValue(item.LotNumber) }}</td>
+          <td>{{ displayValue(item.MailingAddress) }}</td>
+          <td>{{ displayValue(item.OwnersName) }}</td>
+          <td>{{ displayValue(item.PropertyClass) }}</td>
+          <td>{{ displayValue(item.SchoolDistrict) }}</td>
+          <td>{{ displayValue(item.SiteCode) }}</td>
+          <td>{{ displayValue(item.SubdivisionName) }}</td>
+          <td>{{ displayValue(item.TaxDistrict) }}</td>
+          <td>{{ displayValue(item.NumberOfYearsWithUnpaidTaxes) }}</td>
+          <td>{{ displayValue(item.TotalInterest) }}</td>
+          <td>{{ displayValue(item.TotalPenalties) }}</td>
+          <td>{{ displayValue(item.TotalSewerLateralFee) }}</td>
+          <td>{{ displayValue(item.TotalTaxes) }}</td>
+        </tr>
+      }
+    }
+  </table>
 </div>
