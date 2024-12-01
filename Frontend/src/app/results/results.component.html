@@ -1,35 +1,97 @@
 <a href="/home">&LeftArrow; Back To Home</a>
-<div class="table">
+
+<!-- Filters -->
+<div class="filters">
+  <label>
+    City Name:
+    <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="cityName" />
+  </label>
+  <label>
+    City Code:
+    <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="cityCode" />
+  </label>
+  <label
+    >Land Use Code:
+    <input
+      type="text"
+      (keydown.enter)="fetchData()"
+      [(ngModel)]="landUseCode"
+    />
+  </label>
+  <label
+    >School District:
+    <input
+      type="text"
+      (keydown.enter)="fetchData()"
+      [(ngModel)]="schoolDistrict"
+    />
+  </label>
+  <label
+    >Property Class
+    <input
+      type="text"
+      (keydown.enter)="fetchData()"
+      [(ngModel)]="propertyClass"
+    />
+  </label>
+  <button (click)="fetchData()">Apply Filters</button>
+</div>
+
+<!-- Table -->
+<div class="table" style="overflow-x: auto; white-space: nowrap">
   <table>
-    <tr>
-      <th>LocatorNumber</th>
-      <th>City Name</th>
-      <th>Lot Dimensions</th>
-      <th>Lot Number</th>
-      <th>Mailing Address</th>
-      <th>Owner's Name</th>
-      <th>Property Class</th>
-      <th>School District</th>
-      <th>Site Code</th>
-      <th>Subdivision Name</th>
-      <th>Tax District</th>
-      <th>Number of Years With Unpaid Taxes</th>
-      <th>Total Interest</th>
-      <th>Total Penalties</th>
-      <th>Total Sewer Lateral Fee</th>
-      <th>Total Taxes</th>
-    </tr>
-    @if (dataArray && dataArray.length > 0) {
+    <thead>
+      <tr>
+        <th>City Name</th>
+        <th>Owner's Name</th>
+        <th>Mailing Address</th>
+        <th>School District</th>
+        <th (click)="sortData('LocatorNumber')">Locator Number</th>
+        <th>Lot Dimensions</th>
+        <th>Lot Number</th>
+        <th>Property Class</th>
+        <th (click)="sortData('SiteCode')">Site Code</th>
+        <th>Subdivision Name</th>
+        <th (click)="sortData('TaxDistrict')">Tax District</th>
+        <th>Number of Years With Unpaid Taxes</th>
+        <th>Total Interest</th>
+        <th>Total Penalties</th>
+        <th>Total Sewer Lateral Fee</th>
+        <th>Total Taxes</th>
+        <th>Tax Year</th>
+        <th>City Code</th>
+        <th>Destination Code</th>
+        <th>Taxing Address</th>
+        <th>Care Of Name</th>
+        <th>Legal Description</th>
+        <th>Block Number</th>
+        <th>Total Acres</th>
+        <th>Land Use Code</th>
+        <th>Tax Code Description</th>
+        <th>Deed Document Number</th>
+        <th>County Council District</th>
+        <th>Appraised Value 2024</th>
+        <th>Assessed Total 2024</th>
+        <th>Total Amount Due</th>
+        <th>On Post Thirds List</th>
+        <th>Going On Post Thirds List</th>
+        <th>Map Link</th>
+        <th>Total Amount Due / Appraised Value 2024</th>
+        <th>Total Amount Due / Assessed Total 2024</th>
+        <th>Total Taxes + Total Sewer Lateral Fee</th>
+      </tr>
+    </thead>
+    <tbody>
       @for (item of dataArray; track item) {
         <tr>
-          <td>{{ displayValue(item.LocatorNumber) }}</td>
           <td>{{ displayValue(item.CityName) }}</td>
+          <td>{{ displayValue(item.OwnersName) }}</td>
+          <td>{{ displayValue(item.MailingAddress) }}</td>
+          <td>{{ displayValue(item.SchoolDistrict) }}</td>
+          <td>{{ displayValue(item.LocatorNumber) }}</td>
           <td>{{ displayValue(item.LotDimensions) }}</td>
           <td>{{ displayValue(item.LotNumber) }}</td>
-          <td>{{ displayValue(item.MailingAddress) }}</td>
-          <td>{{ displayValue(item.OwnersName) }}</td>
           <td>{{ displayValue(item.PropertyClass) }}</td>
-          <td>{{ displayValue(item.SchoolDistrict) }}</td>
           <td>{{ displayValue(item.SiteCode) }}</td>
           <td>{{ displayValue(item.SubdivisionName) }}</td>
           <td>{{ displayValue(item.TaxDistrict) }}</td>
@@ -38,8 +100,37 @@
           <td>{{ displayValue(item.TotalPenalties) }}</td>
           <td>{{ displayValue(item.TotalSewerLateralFee) }}</td>
           <td>{{ displayValue(item.TotalTaxes) }}</td>
+          <td>{{ displayValue(item.TaxYear) }}</td>
+          <td>{{ displayValue(item.CityCode) }}</td>
+          <td>{{ displayValue(item.DestinationCode) }}</td>
+          <td>{{ displayValue(item.TaxingAddress) }}</td>
+          <td>{{ displayValue(item.CareOfName) }}</td>
+          <td>{{ displayValue(item.LegalDescrition) }}</td>
+          <td>{{ displayValue(item.BlockNumber) }}</td>
+          <td>{{ displayValue(item.TotalAcres) }}</td>
+          <td>{{ displayValue(item.LandUseCode) }}</td>
+          <td>{{ displayValue(item.TaxCodeDescritpion) }}</td>
+          <td>{{ displayValue(item.DeedDocumentNumber) }}</td>
+          <td>{{ displayValue(item.CountyCouncilDistrict) }}</td>
+          <td>{{ displayValue(item.AppraisedValue2024) }}</td>
+          <td>{{ displayValue(item.AssessedTotal2024) }}</td>
+          <td>{{ displayValue(item.TotalAmmountDue) }}</td>
+          <td>{{ displayValue(item.IsParcelOnPostThirdsList) }}</td>
+          <td>{{ displayValue(item.IsGoingToBeOnPostThirdList) }}</td>
+          <td>
+            @if (isLink(item.MapLink)) {
+              <a href="{{ item.MapLink }}" target="_blank">{{
+                displayValue(item.MapLink)
+              }}</a>
+            } @else {
+              None
+            }
+          </td>
+          <td>{{ displayValue(item.TotalAmountDueOverAppraisedValue2024) }}</td>
+          <td>{{ displayValue(item.TotalAmountDueOverAssessedTotal2024) }}</td>
+          <td>{{ displayValue(item.TotalTaxesPlusTotalSewerLateralFee) }}</td>
         </tr>
       }
-    }
+    </tbody>
   </table>
 </div>

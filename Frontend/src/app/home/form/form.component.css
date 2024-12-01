@@ -1,4 +1,4 @@
-.top {
+.all {
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -9,25 +9,34 @@
 
 form {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
 
-  .start,
-  .end {
+  :last-child {
+    justify-self: center;
+    grid-column: span 2;
+  }
+
+  .cityCode,
+  .cityName,
+  .landUseCode,
+  .schoolDistrict,
+  .propertyClass {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
 
     label {
-      font-size: 25px;
+      font-size: 20px;
     }
 
     input {
       font-size: 20px;
-      height: 5vh;
+      height: 4vh;
       border-radius: 10px;
       border: 2px solid var(--green);
       padding: 0 10px;
@@ -42,18 +51,47 @@ form {
   width: 100%;
   gap: 10vh;
 
-  button {
-    height: 45px;
-    width: 5rem;
-    font-size: 20px;
-    border-radius: 10px;
-  }
-}
+  .button-89 {
+    --b: 3px; /* border thickness */
+    --s: 0.45em; /* size of the corner */
+    --color: #373b44;
 
-.error {
-  display: flex;
-  color: red;
-  justify-content: center;
+    padding: calc(0.5em + var(--s)) calc(0.9em + var(--s));
+    color: var(--dark-green);
+    --_p: var(--s);
+    background: conic-gradient(
+        from 90deg at var(--b) var(--b),
+        #0000 90deg,
+        var(--dark-green) 0
+      )
+      var(--_p) var(--_p) / calc(100% - var(--b) - 2 * var(--_p))
+      calc(100% - var(--b) - 2 * var(--_p));
+    transition:
+      0.3s linear,
+      color 0s,
+      background-color 0s;
+    outline: var(--b) solid #0000;
+    outline-offset: 0.6em;
+    font-size: 16px;
+
+    border: 0;
+
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+  .button-89:hover,
+  .button-89:focus-visible {
+    --_p: 0px;
+    outline-color: var(--dark-green);
+    outline-offset: 0.05em;
+  }
+
+  .button-89:active {
+    background: var(--dark-color);
+    color: var(--dark-green);
+  }
 }
 
 button {
@@ -61,38 +99,46 @@ button {
 }
 
 #submit {
-  background: var(--light-green);
-  color: var(--black);
-  border: 2px solid var(--green);
+  color: var(--green);
 }
 
 #reset {
-  background: rgba(255, 0, 0, 0.1);
-  color: red;
-  border: 2px solid red;
+  color: #7c0000;
 }
 
 @media screen and (max-width: 900px) {
-  .top {
-    align-items: center;
-  }
   form {
-    width: 90%;
-    align-items: center;
+    grid-template-columns: 1fr !important;
+    gap: 5px;
+    padding: 5px;
 
-    .start,
-    .end {
-      gap: 10px;
+    .cityCode,
+    .cityName,
+    .landUseCode,
+    .schoolDistrict,
+    .propertyClass {
+      display: flex;
+      gap: 5px;
       flex-direction: column;
+      align-items: flex-start;
 
       label {
-        font-size: 26px;
+        font-size: 15px;
         width: 100%;
+        text-align: left;
       }
 
       input {
-        font-size: 16px;
+        font-size: 15px;
+        padding: 10px;
+        width: 100%;
       }
+    }
+
+    button {
+      font-size: 15px;
+      padding: 10px;
+      width: 100%;
     }
   }
 }

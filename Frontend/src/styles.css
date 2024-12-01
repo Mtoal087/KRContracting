@@ -23,3 +23,7 @@ body {
 a {
   text-decoration: none;
 }
+
+input {
+  text-transform: uppercase;
+}

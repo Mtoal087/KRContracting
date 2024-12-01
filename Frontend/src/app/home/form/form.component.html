@@ -1,27 +1,57 @@
-<div class="top">
-  <form [formGroup]="form" target="_blank" method="get">
-    <div class="start">
-      <label for="start">Starting Locator:</label>
-      <input type="text" id="start" formControlName="start" required />
-    </div>
-    <div class="end">
-      <label for="end">Ending Locator:</label>
+<div class="all">
+  <form class="left" [formGroup]="sortByForm" target="_blank" method="get">
+    <div class="cityCode">
+      <label for="cityCode">City Code:</label>
       <input
         type="text"
-        id="end"
-        formControlName="end"
+        id="cityCode"
+        formControlName="cityCode"
         (keydown.enter)="submitForm()"
-        required
+      />
+    </div>
+    <div class="cityName">
+      <label for="cityName">City Name:</label>
+      <input
+        type="text"
+        id="cityName"
+        formControlName="cityName"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+    <div class="landUseCode">
+      <label for="landUseCode">Land Use Code:</label>
+      <input
+        type="text"
+        id="landUseCode"
+        formControlName="landUseCode"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+    <div class="schoolDistrict">
+      <label for="schoolDistrict">School District:</label>
+      <input
+        type="text"
+        id="schoolDistrict"
+        formControlName="schoolDistrict"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+    <div class="propertyClass">
+      <label for="propertyClass">Property Class:</label>
+      <input
+        type="text"
+        id="propertyClass"
+        formControlName="propertyClass"
+        (keydown.enter)="submitForm()"
       />
     </div>
   </form>
   <div class="btns">
-    <button id="submit" type="submit" (click)="submitForm()">Submit</button>
-    <button id="reset" type="reset" (click)="resetForm()">Reset</button>
+    <button id="submit" type="submit" class="button-89" (click)="submitForm()">
+      Submit
+    </button>
+    <button id="reset" type="reset" class="button-89" (click)="resetForm()">
+      Reset
+    </button>
   </div>
-  @if (error) {
-    <div class="error">
-      <h2>Invalid input! Please try again.</h2>
-    </div>
-  }
 </div>

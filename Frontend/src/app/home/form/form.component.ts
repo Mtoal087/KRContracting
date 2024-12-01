@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,37 +10,79 @@ import { Router } from '@angular/router';
   styleUrl: './form.component.css',
 })
 export class FormComponent {
-  form: FormGroup;
-  error: boolean = false;
+  sortByForm: FormGroup;
+  rangeForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
   ) {
-    this.form = this.formBuilder.group({
-      start: ['', [Validators.required, Validators.minLength(2)]],
-      end: ['', [Validators.required, Validators.minLength(2)]],
+    this.sortByForm = this.formBuilder.group({
+      cityCode: [''],
+      cityName: [''],
+      landUseCode: [''],
+      schoolDistrict: [''],
+      propertyClass: [''],
+    });
+
+    this.rangeForm = this.formBuilder.group({
+      fromTotalAcres: [''],
+      toTotalAcres: [''],
+      from2024AppraisedValue: [''],
+      to2024AppraisedValue: [''],
+      from2024AssessedTotal: [''],
+      to2024AssessedTotal: [''],
+      fromNumberOfYearsWithUnpaidTaxes: [''],
+      toNumberOfYearsWithUnpaidTaxes: [''],
+      fromTotalTaxes: [''],
+      toTotalTaxes: [''],
+      fromTotalInterest: [''],
+      toTotalInterest: [''],
+      fromTotalPenalties: [''],
+      toTotalPenalties: [''],
+      fromTotalAmountDue: [''],
+      toTotalAmountDue: [''],
+      fromTotalAmountDueOverAppraisedValue2024: [''],
+      toTotalAmountDueOverAppraisedValue2024: [''],
+      fromTotalAmountDueOverAssessedTotal204: [''],
+      toTotalAmountDueOverAssessedTotal2024: [''],
+      fromTotalTaxesPlusTotalSewerLateralFee: [''],
+      toTotalTaxesPlusTotalSewerLateralFee: [''],
     });
   }
 
   submitForm() {
-    const start = this.form.get('start')!.value;
-    const end = this.form.get('end')!.value;
+    const queryParams: any = {};
 
-    if (start.length < 2 || end.length < 2) {
-      this.error = true;
-      console.error(this.error);
-      return;
-    }
+    const sortByFields = [
+      'cityCode',
+      'cityName',
+      'landUseCode',
+      'schoolDistrict',
+      'propertyClass',
+    ];
 
-    this.router.navigate(['/results'], {
-      queryParams: { start: start, end: end },
+    sortByFields.forEach((field: string) => {
+      const value = this.sortByForm.get(field)?.value;
+      if (value) {
+        queryParams[field] = value.toUpperCase();
+      }
     });
+
+    this.router.navigate(['/results'], { queryParams });
   }
 
   resetForm() {
-    this.form.get('start')?.setValue('');
-    this.form.get('end')?.setValue('');
-    this.error = false;
+    const formFields = [
+      'cityCode',
+      'cityName',
+      'landUseCode',
+      'schoolDistrict',
+      'propertyClass',
+    ];
+
+    formFields.forEach((field) => {
+      this.sortByForm.get(field)?.setValue('');
+    });
   }
 }

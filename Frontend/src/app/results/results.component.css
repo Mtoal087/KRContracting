@@ -4,15 +4,28 @@ a {
   margin: 0 0 0 50px;
 }
 
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .table {
   max-width: 100%;
   overflow-x: auto;
   white-space: nowrap;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 table {
   border-collapse: collapse;
   width: auto;
+
+  a {
+    font-size: 16px;
+  }
 }
 
 th,
