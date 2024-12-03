@@ -22,10 +22,10 @@ a {
 table {
   border-collapse: collapse;
   width: auto;
+}
 
-  a {
-    font-size: 16px;
-  }
+table a {
+  font-size: 16px;
 }
 
 th,
@@ -41,4 +41,45 @@ th {
   font-weight: bold;
   background: var(--dark-green);
   color: var(--light-green);
+}
+
+/* Pagination Styles */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pagination button {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+  border: 1px solid var(--green);
+  padding: 8px 12px;
+  margin: 0 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: var(--green);
+  color: var(--light-green);
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: var(--dark-green);
+  color: var(--light-green);
+  font-weight: bold;
+}
+
+.pagination span {
+  margin: 0 10px;
+  font-size: 16px;
 }

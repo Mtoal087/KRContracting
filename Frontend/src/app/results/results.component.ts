@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DatabaseService } from '../services/database.service';
@@ -8,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [HttpClientModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, FormsModule],
   providers: [DatabaseService],
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
@@ -45,8 +46,12 @@ export class ResultsComponent implements OnInit {
   toTotalTaxesPlusTotalSewerLateralFee: string = '';
   sortBy: string = '';
   order: 'ASC' | 'DESC' = 'ASC';
-  limit: number = 20;
+
+  // Pagination properties
+  limit: number = 10; // Records per page
   offset: number = 0;
+  currentPage: number = 1;
+  totalRecords: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -144,22 +149,35 @@ export class ResultsComponent implements OnInit {
       params.toTotalTaxesPlusTotalSewerLateralFee = this.toTotalTaxesPlusTotalSewerLateralFee;
     }
 
+    // Include sorting parameters if applicable
+    if (this.sortBy) {
+      params.sortBy = this.sortBy;
+      params.order = this.order;
+    }
+
+    // Calculate offset
+    this.offset = (this.currentPage - 1) * this.limit;
+
     console.log(params);
 
-    this.database.getFilteredData(params, this.limit).subscribe((res: any) => {
+    this.database.getFilteredData(params, this.limit, this.offset).subscribe((res: any) => {
       this.dataArray = res.data;
+      this.totalRecords = res.totalCount || 0;
       console.log(res.data);
     });
   }
 
   sortData(field: string) {
-    this.sortBy = field;
-    this.order = this.order === 'ASC' ? 'DESC' : 'ASC';
-    this.database
-      .getSortedData(this.sortBy, this.order, this.limit)
-      .subscribe((res: any) => {
-        this.dataArray = res.data;
-      });
+    if (this.sortBy === field) {
+      // Toggle between ASC and DESC if the same field is clicked
+      this.order = this.order === 'ASC' ? 'DESC' : 'ASC';
+    } else {
+      // If a new field is clicked, default to ASC
+      this.sortBy = field;
+      this.order = 'ASC';
+    }
+    this.currentPage = 1; // Reset to first page on sort
+    this.fetchData();
   }
 
   newTitle(newTitle: string) {
@@ -167,15 +185,78 @@ export class ResultsComponent implements OnInit {
   }
 
   displayValue(value: any): string {
-    return value === null || value === undefined || value.trim() === ''
+    return value === null || value === undefined || value.toString().trim() === ''
       ? 'None'
       : value;
   }
 
   isLink(value: any): boolean {
-    if (this.displayValue(value) === 'None') {
-      return false;
+    return this.displayValue(value) !== 'None';
+  }
+
+  // Pagination methods
+  totalPages(): number {
+    return Math.ceil(this.totalRecords / this.limit);
+  }
+
+  getPages(): (number | string)[] {
+    const totalPages = this.totalPages();
+    const pages: (number | string)[] = [];
+
+    if (totalPages <= 5) {
+      // Show all pages
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // More than 5 pages
+      const currentPage = this.currentPage;
+      let startPage: number, endPage: number;
+
+      if (currentPage <= 3) {
+        startPage = 1;
+        endPage = 5;
+      } else if (currentPage + 2 >= totalPages) {
+        startPage = totalPages - 4;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - 2;
+        endPage = currentPage + 2;
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      if (endPage < totalPages) {
+        pages.push('...');
+      }
     }
-    return true;
+
+    return pages;
+  }
+
+  goToPage(page: number | string) {
+    if (page === '...') {
+      // Handle ellipsis click: go to the next page group
+      const totalPages = this.totalPages();
+      const lastPageInCurrentGroup = Math.min(this.currentPage + 2, totalPages);
+      if (lastPageInCurrentGroup + 1 <= totalPages) {
+        this.currentPage = lastPageInCurrentGroup + 1;
+      } else {
+        this.currentPage = totalPages;
+      }
+    } else if (typeof page === 'number') {
+      const totalPages = this.totalPages();
+      if (page >= 1 && page <= totalPages) {
+        this.currentPage = page;
+      }
+    }
+    this.fetchData();
+  }
+
+  // Optional: TrackBy function for *ngFor
+  trackByFn(index: number, item: any): any {
+    return item.LocatorNumber; // Use a unique identifier from your data
   }
 }

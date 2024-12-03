@@ -16,7 +16,7 @@ export class DatabaseService {
 
   getDataByTaxDistrict(taxDistrict: string, limit = 10): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}?taxDistrict=${taxDistrict}&?limit=${limit}`,
+      `${this.apiUrl}?taxDistrict=${taxDistrict}&limit=${limit}`,
     );
   }
 
@@ -25,21 +25,23 @@ export class DatabaseService {
   }
 
   getPaginatedData(limit: number, offset: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?limit=${limit}?offset=${offset}`);
+    return this.http.get<any>(`${this.apiUrl}?limit=${limit}&offset=${offset}`);
   }
 
   getSortedData(
     sortBy: string,
     order: 'ASC' | 'DESC',
     limit: number = 10,
+    offset: number = 0,
   ): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}?sortBy=${sortBy}&order=${order}&limit=${limit}`,
+      `${this.apiUrl}?sortBy=${sortBy}&order=${order}&limit=${limit}&offset=${offset}`,
     );
   }
 
-  getFilteredData(params: any, limit: number = 10): Observable<any> {
-    params.limit = limit; // Add limit to params
+  getFilteredData(params: any, limit: number = 10, offset: number = 0): Observable<any> {
+    params.limit = limit.toString(); // Add limit to params
+    params.offset = offset.toString(); // Add offset to params
 
     let httpParams = new HttpParams();
 
