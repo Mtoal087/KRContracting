@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -52,6 +52,44 @@ export class FormComponent {
   }
 
   submitForm() {
+    const rangeFields = [
+      'fromTotalAcres', 'toTotalAcres',
+      'from2024AppraisedValue', 'to2024AppraisedValue',
+      'from2024AssessedTotal', 'to2024AssessedTotal',
+      'fromNumberOfYearsWithUnpaidTaxes', 'toNumberOfYearsWithUnpaidTaxes',
+      'fromTotalTaxes', 'toTotalTaxes',
+      'fromTotalInterest', 'toTotalInterest',
+      'fromTotalPenalties', 'toTotalPenalties',
+      'fromTotalAmountDue', 'toTotalAmountDue',
+      'fromTotalAmountDueOverAppraisedValue2024', 'toTotalAmountDueOverAppraisedValue2024',
+      'fromTotalAmountDueOverAssessedTotal204', 'toTotalAmountDueOverAssessedTotal2024',
+      'fromTotalTaxesPlusTotalSewerLateralFee', 'toTotalTaxesPlusTotalSewerLateralFee',
+    ];
+
+    let fieldsMismatch = false;
+
+    for (let i = 0; i < rangeFields.length; i += 2) {
+      const fromField = this.rangeForm.get(rangeFields[i]);
+      const toField = this.rangeForm.get(rangeFields[i + 1]);
+
+      const fromValue = fromField?.value;
+      const toValue = toField?.value;
+
+      const isFromFilled = fromValue && fromValue !== '';
+      const isToFilled = toValue && toValue !== '';
+
+      if ((isFromFilled && !isToFilled) || (!isFromFilled && isToFilled)) {
+        fieldsMismatch = true;
+        break;
+      }
+    }
+
+    if (fieldsMismatch) {
+      this.rangeForm.setErrors({ fieldsMismatch: true });
+      console.log('Both "From" and "To" fields must be filled out together for each pair.');
+      return;
+    }
+
     const queryParams: any = {};
 
     const sortByFields = [
@@ -84,5 +122,23 @@ export class FormComponent {
     formFields.forEach((field) => {
       this.sortByForm.get(field)?.setValue('');
     });
+
+    const rangeFields = [
+      'fromTotalAcres', 'toTotalAcres',
+      'from2024AppraisedValue', 'to2024AppraisedValue',
+      'from2024AssessedTotal', 'to2024AssessedTotal',
+      'fromNumberOfYearsWithUnpaidTaxes', 'toNumberOfYearsWithUnpaidTaxes',
+      'fromTotalTaxes', 'toTotalTaxes',
+      'fromTotalInterest', 'toTotalInterest',
+      'fromTotalPenalties', 'toTotalPenalties',
+      'fromTotalAmountDue', 'toTotalAmountDue',
+      'fromTotalAmountDueOverAppraisedValue2024', 'toTotalAmountDueOverAppraisedValue2024',
+      'fromTotalAmountDueOverAssessedTotal204', 'toTotalAmountDueOverAssessedTotal2024',
+      'fromTotalTaxesPlusTotalSewerLateralFee', 'toTotalTaxesPlusTotalSewerLateralFee',
+    ];
+
+    rangeFields.forEach((field) => {
+      this.rangeForm.get(field)?.setValue('');
+    })
   }
 }

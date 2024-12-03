@@ -50,10 +50,11 @@ export class ResultsComponent implements OnInit {
   fetchData() {
     const params: any = {};
 
-    if (this.cityCode) params.cityCode = this.cityCode;
-    if (this.cityName) params.cityName = this.cityName;
-    if (this.landUseCode) params.landUseCode = this.landUseCode;
-    if (this.schoolDistrict) params.schoolDistrict = this.schoolDistrict;
+    if (this.cityCode) params.cityCode = this.cityCode.toUpperCase();
+    if (this.cityName) params.cityName = this.cityName.toUpperCase();
+    if (this.landUseCode) params.landUseCode = this.landUseCode.toUpperCase();
+    if (this.schoolDistrict)
+      params.schoolDistrict = this.schoolDistrict.toUpperCase();
     if (this.propertyClass) params.propertyClass = this.propertyClass;
 
     console.log(params);
@@ -89,5 +90,15 @@ export class ResultsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  resetFilters() {
+    this.cityCode = '';
+    this.cityName = '';
+    this.landUseCode = '';
+    this.schoolDistrict = '';
+    this.propertyClass = '';
+
+    this.fetchData();
   }
 }

@@ -27,14 +27,17 @@
     />
   </label>
   <label
-    >Property Class
+    >Property Class:
     <input
       type="text"
       (keydown.enter)="fetchData()"
       [(ngModel)]="propertyClass"
     />
   </label>
-  <button (click)="fetchData()">Apply Filters</button>
+</div>
+<div class="buttonFilter">
+  <button class="button" (click)="fetchData()">Apply<span></span></button>
+  <button class="button red" (click)="resetFilters()">Reset<span></span></button>
 </div>
 
 <!-- Table -->
@@ -46,10 +49,10 @@
         <th>Owner's Name</th>
         <th>Mailing Address</th>
         <th>School District</th>
+        <th>Property Class</th>
         <th (click)="sortData('LocatorNumber')">Locator Number</th>
         <th>Lot Dimensions</th>
         <th>Lot Number</th>
-        <th>Property Class</th>
         <th (click)="sortData('SiteCode')">Site Code</th>
         <th>Subdivision Name</th>
         <th (click)="sortData('TaxDistrict')">Tax District</th>
@@ -86,20 +89,50 @@
         <tr>
           <td>{{ displayValue(item.CityName) }}</td>
           <td>{{ displayValue(item.OwnersName) }}</td>
-          <td>{{ displayValue(item.MailingAddress) }}</td>
+          <td>
+            {{
+              item.MailingAddress === "Same as the taxing address"
+                ? displayValue(item.TaxingAddress)
+                : displayValue(item.MailingAddress)
+            }}
+          </td>
           <td>{{ displayValue(item.SchoolDistrict) }}</td>
+          <td>{{ displayValue(item.PropertyClass) }}</td>
           <td>{{ displayValue(item.LocatorNumber) }}</td>
           <td>{{ displayValue(item.LotDimensions) }}</td>
           <td>{{ displayValue(item.LotNumber) }}</td>
-          <td>{{ displayValue(item.PropertyClass) }}</td>
           <td>{{ displayValue(item.SiteCode) }}</td>
           <td>{{ displayValue(item.SubdivisionName) }}</td>
           <td>{{ displayValue(item.TaxDistrict) }}</td>
           <td>{{ displayValue(item.NumberOfYearsWithUnpaidTaxes) }}</td>
-          <td>{{ displayValue(item.TotalInterest) }}</td>
-          <td>{{ displayValue(item.TotalPenalties) }}</td>
-          <td>{{ displayValue(item.TotalSewerLateralFee) }}</td>
-          <td>{{ displayValue(item.TotalTaxes) }}</td>
+          <td>
+            {{
+              displayValue(item.TotalInterest) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalInterest)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.TotalPenalties) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalPenalties)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.TotalSewerLateralFee) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalSewerLateralFee)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.TotalTaxes) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalTaxes)
+            }}
+          </td>
           <td>{{ displayValue(item.TaxYear) }}</td>
           <td>{{ displayValue(item.CityCode) }}</td>
           <td>{{ displayValue(item.DestinationCode) }}</td>
@@ -112,9 +145,27 @@
           <td>{{ displayValue(item.TaxCodeDescritpion) }}</td>
           <td>{{ displayValue(item.DeedDocumentNumber) }}</td>
           <td>{{ displayValue(item.CountyCouncilDistrict) }}</td>
-          <td>{{ displayValue(item.AppraisedValue2024) }}</td>
-          <td>{{ displayValue(item.AssessedTotal2024) }}</td>
-          <td>{{ displayValue(item.TotalAmmountDue) }}</td>
+          <td>
+            {{
+              displayValue(item.AppraisedValue2024) === "None"
+                ? "None"
+                : "$" + displayValue(item.AppraisedValue2024)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.AssessedTotal2024) === "None"
+                ? "None"
+                : "$" + displayValue(item.AssessedTotal2024)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.TotalAmmountDue) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalAmmountDue)
+            }}
+          </td>
           <td>{{ displayValue(item.IsParcelOnPostThirdsList) }}</td>
           <td>{{ displayValue(item.IsGoingToBeOnPostThirdList) }}</td>
           <td>
@@ -126,9 +177,27 @@
               None
             }
           </td>
-          <td>{{ displayValue(item.TotalAmountDueOverAppraisedValue2024) }}</td>
-          <td>{{ displayValue(item.TotalAmountDueOverAssessedTotal2024) }}</td>
-          <td>{{ displayValue(item.TotalTaxesPlusTotalSewerLateralFee) }}</td>
+          <td>
+            {{
+              displayValue(item.TotalAmountDueOverAppraisedValue2024) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalAmountDueOverAppraisedValue2024)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.TotalAmountDueOverAssessedTotal2024) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalAmountDueOverAssessedTotal2024)
+            }}
+          </td>
+          <td>
+            {{
+              displayValue(item.TotalTaxesPlusTotalSewerLateralFee) === "None"
+                ? "None"
+                : "$" + displayValue(item.TotalTaxesPlusTotalSewerLateralFee)
+            }}
+          </td>
         </tr>
       }
     </tbody>

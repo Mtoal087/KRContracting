@@ -38,7 +38,7 @@ app.get("/data", (req, res) => {
 
   if (cityName) {
     query += " AND CityName LIKE ?";
-    params.push(`%${cityName}%`); // Support partial matches
+    params.push(`%${cityName}%`);
   }
 
   if (landUseCode) {
@@ -47,13 +47,13 @@ app.get("/data", (req, res) => {
   }
 
   if (schoolDistrict) {
-    query += " AND SchoolDistrict = ?";
-    params.push(schoolDistrict);
+    query += " AND SchoolDistrict LIKE ?";
+    params.push(`%${schoolDistrict}`);
   }
 
   if (propertyClass) {
-    query += " AND PropertyClass = ?";
-    params.push(propertyClass);
+    query += " AND PropertyClass LIKE ?";
+    params.push(`%${propertyClass}`);
   }
 
   query += " LIMIT ?";

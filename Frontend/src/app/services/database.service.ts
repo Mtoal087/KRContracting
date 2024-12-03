@@ -39,7 +39,7 @@ export class DatabaseService {
   }
 
   getFilteredData(params: any, limit: number = 10): Observable<any> {
-    params.limit = limit; // Add limit to params
+    params.limit = limit;
     return this.http.get<any>(this.apiUrl, { params });
   }
 }

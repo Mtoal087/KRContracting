@@ -1,14 +1,41 @@
 a {
   font-size: 22px;
-  color: var(--dark-green);
+  color: var(--green);
   margin: 0 0 0 50px;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--dark-green);
+}
+
+.buttonFilter {
+  display: flex;
+  justify-content: end;
+  width: 90%;
+  margin-bottom: 10px;
+  gap: 25px;
 }
 
 .filters {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  justify-content: flex-end;
+  justify-items: end;
+  margin: 20px;
+
+  label {
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+
+    input {
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      padding: 0 5px;
+      height: 25px;
+    }
+  }
 }
 
 .table {
@@ -17,6 +44,7 @@ a {
   white-space: nowrap;
   margin-top: 20px;
   margin-bottom: 20px;
+  margin: 0 10px;
 }
 
 table {
@@ -25,6 +53,7 @@ table {
 
   a {
     font-size: 16px;
+    margin: 0;
   }
 }
 
@@ -41,4 +70,32 @@ th {
   font-weight: bold;
   background: var(--dark-green);
   color: var(--light-green);
+}
+
+@media screen and (max-width: 900px) {
+  .table {
+    margin: 0 2px;
+  }
+
+  .filters {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 25px 0;
+    padding: 0 5px;
+
+    label {
+      display: inherit;
+      justify-content: space-between;
+    }
+  }
+
+  a {
+    margin-left: 20px;
+  }
+
+  .buttonFilter {
+    justify-content: center;
+    width: 100%;
+  }
 }

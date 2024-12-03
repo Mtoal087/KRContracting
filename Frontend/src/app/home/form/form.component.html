@@ -46,12 +46,38 @@
       />
     </div>
   </form>
+  <form class="right" [formGroup]="rangeForm" target="_blank" method="get">
+    <div class="totalAcres">
+      <label for="Acres">Total Acres</label>
+      <input
+        type="text"
+        id="fromTotalAcres"
+        formControlName="fromTotalAcres"
+        (keydown.enter)="submitForm()"
+        placeholder="From:"
+      />
+      <input 
+        type="text" 
+        id="toTotalAcres" 
+        formControlName="toTotalAcres" 
+        (keydown.enter)="submitForm()"
+        placeholder="To:"
+      />
+    </div>
+  </form>
   <div class="btns">
-    <button id="submit" type="submit" class="button-89" (click)="submitForm()">
+    <button id="submit" type="submit" class="button" (click)="submitForm()">
       Submit
+      <span></span>
     </button>
-    <button id="reset" type="reset" class="button-89" (click)="resetForm()">
+    <button id="reset" type="reset" class="button red" (click)="resetForm()">
       Reset
+      <span></span>
     </button>
+  </div>
+  <div class="errors">
+    @if (rangeForm.errors) {
+      Both "From Total Acres" and "To Total Acres" must be filled out together.
+    }
   </div>
 </div>
