@@ -262,12 +262,40 @@ export class ResultsComponent implements OnInit {
   }
 
   resetFilters() {
+    // Reset basic filters
     this.cityCode = '';
     this.cityName = '';
     this.landUseCode = '';
     this.schoolDistrict = '';
     this.propertyClass = '';
-
+  
+    // Reset range filters
+    this.fromTotalAcres = '';
+    this.toTotalAcres = '';
+    this.from2024AssessedTotal = '';
+    this.to2024AssessedTotal = '';
+    this.from2024AppraisedValue = '';
+    this.to2024AppraisedValue = '';
+    this.fromNumberOfYearsWithUnpaidTaxes = '';
+    this.toNumberOfYearsWithUnpaidTaxes = '';
+    this.fromTotalTaxes = '';
+    this.toTotalTaxes = '';
+    this.fromTotalInterest = '';
+    this.toTotalInterest = '';
+    this.fromTotalPenalties = '';
+    this.toTotalPenalties = '';
+    this.fromTotalAmountDue = '';
+    this.toTotalAmountDue = '';
+    this.fromTotalAmountDueOverAppraisedValue2024 = '';
+    this.toTotalAmountDueOverAppraisedValue2024 = '';
+    this.fromTotalAmountDueOverAssessedTotal2024 = '';
+    this.toTotalAmountDueOverAssessedTotal2024 = '';
+    this.fromTotalTaxesPlusTotalSewerLateralFee = '';
+    this.toTotalTaxesPlusTotalSewerLateralFee = '';
+  
+    // Reset pagination
+    this.currentPage = 1;
+  
     this.fetchData();
   }
 }
