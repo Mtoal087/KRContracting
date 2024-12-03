@@ -1,51 +1,78 @@
-.all {
+/* Define color variables */
+:root {
+  --light-green: #d4eac7;
+  --green: #5a8f29;
+  --dark-green: #3a5a17;
+}
+
+/* Container for the entire form */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Sections within the form */
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section h2 {
+  margin-bottom: 20px;
+  color: var(--dark-green);
+  border-bottom: 2px solid var(--green);
+  padding-bottom: 5px;
+}
+
+/* Form groups for individual controls */
+.form-group {
   display: flex;
-  flex-direction: column;
-  gap: 40px;
-  justify-content: center;
-  width: 100%;
-  margin-top: 15vh;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-form {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  flex-direction: column;
-  gap: 20px;
-
-  :last-child {
-    justify-self: center;
-    grid-column: span 2;
-  }
-
-  .cityCode,
-  .cityName,
-  .landUseCode,
-  .schoolDistrict,
-  .propertyClass,
-  .totalAcres {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-
-    label {
-      font-size: 20px;
-    }
-
-    input {
-      font-size: 20px;
-      height: 4vh;
-      border-radius: 10px;
-      border: 2px solid var(--green);
-      padding: 0 10px;
-      color: var(--dark-green);
-    }
-  }
+/* Labels */
+.form-group label {
+  flex: 1 1 200px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: var(--dark-green);
 }
 
+/* Inputs */
+.form-group input {
+  flex: 1 1 300px;
+  padding: 8px;
+  border: 1px solid var(--green);
+  border-radius: 4px;
+  font-size: 16px;
+  color: var(--dark-green);
+}
+
+/* Range Groups */
+.range-group .range-inputs {
+  display: flex;
+  align-items: center;
+  flex: 1 1 300px;
+}
+
+.range-group .range-inputs input {
+  flex: 1 1 45%;
+  margin-right: 5px;
+}
+
+.range-group .range-separator {
+  margin: 0 5px;
+  color: var(--dark-green);
+}
+
+/* Adjust margin for the last input in range */
+.range-group .range-inputs input:last-child {
+  margin-right: 0;
+}
+
+/* Buttons */
 .btns {
   display: flex;
   justify-content: center;
@@ -53,52 +80,52 @@ form {
   gap: 10vh;
 }
 
+/* Preserve existing button styles */
+/* If you have styles for .button and .button.red, they will apply here */
+
 .errors {
   color: maroon;
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 900px) {
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 5px;
-
-    .cityCode,
-    .cityName,
-    .landUseCode,
-    .schoolDistrict,
-    .propertyClass {
-      display: flex;
-      gap: 5px;
-      flex-direction: column;
-      align-items: flex-start;
-
-      label {
-        font-size: 15px;
-        width: 100%;
-        text-align: left;
-      }
-
-      input {
-        font-size: 15px;
-        padding: 10px;
-        width: 100%;
-      }
-    }
-
-    button {
-      font-size: 15px;
-      padding: 10px;
-      width: 100%;
-    }
-  }
-}
-
+/* Error Messages */
 .error {
   color: red;
   font-size: 14px;
   margin-top: 5px;
-  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  /* Stack labels and inputs vertically on small screens */
+  .form-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-group label,
+  .form-group input,
+  .range-group .range-inputs {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+
+  .range-group .range-inputs {
+    flex-direction: column;
+  }
+
+  .range-group .range-inputs input {
+    margin-bottom: 10px;
+  }
+
+  .btns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button,
+  .button.red {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 }

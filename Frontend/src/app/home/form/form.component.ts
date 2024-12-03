@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
-=======
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
->>>>>>> cedf62678dc1a7f330af0f64affa5be252f997d1
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -117,31 +113,11 @@ export class FormComponent {
       }
     });
 
-<<<<<<< HEAD
-    const rangeFields = [
-      'fromTotalAcres', 'toTotalAcres',
-      'from2024AppraisedValue', 'to2024AppraisedValue',
-      'from2024AssessedTotal', 'to2024AssessedTotal',
-      'fromNumberOfYearsWithUnpaidTaxes', 'toNumberOfYearsWithUnpaidTaxes',
-      'fromTotalTaxes', 'toTotalTaxes',
-      'fromTotalInterest', 'toTotalInterest',
-      'fromTotalPenalties', 'toTotalPenalties',
-      'fromTotalAmountDue', 'toTotalAmountDue',
-      'fromTotalAmountDueOverAppraisedValue2024', 'toTotalAmountDueOverAppraisedValue2024',
-      'fromTotalAmountDueOverAssessedTotal204', 'toTotalAmountDueOverAssessedTotal2024',
-      'fromTotalTaxesPlusTotalSewerLateralFee', 'toTotalTaxesPlusTotalSewerLateralFee',
-    ];
-
-    rangeFields.forEach((field) => {
-      this.rangeForm.get(field)?.setValue('');
-    })
-=======
     return isValid;
   }
 
   getRangeErrorKeys(): string[] {
     return Object.keys(this.rangeFormErrors);
->>>>>>> cedf62678dc1a7f330af0f64affa5be252f997d1
   }
 }
 
