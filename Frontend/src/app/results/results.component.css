@@ -50,11 +50,10 @@ a:hover {
 table {
   border-collapse: collapse;
   width: auto;
+}
 
-  a {
-    font-size: 16px;
-    margin: 0;
-  }
+table a {
+  font-size: 16px;
 }
 
 th,
@@ -72,30 +71,43 @@ th {
   color: var(--light-green);
 }
 
-@media screen and (max-width: 900px) {
-  .table {
-    margin: 0 2px;
-  }
+/* Pagination Styles */
 
-  .filters {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 25px 0;
-    padding: 0 5px;
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-    label {
-      display: inherit;
-      justify-content: space-between;
-    }
-  }
+.pagination button {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+  border: 1px solid var(--green);
+  padding: 8px 12px;
+  margin: 0 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-  a {
-    margin-left: 20px;
-  }
+.pagination button:hover {
+  background-color: var(--green);
+  color: var(--light-green);
+}
 
-  .buttonFilter {
-    justify-content: center;
-    width: 100%;
-  }
+.pagination button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: var(--dark-green);
+  color: var(--light-green);
+  font-weight: bold;
+}
+
+.pagination span {
+  margin: 0 10px;
+  font-size: 16px;
 }
