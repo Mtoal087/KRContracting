@@ -46,6 +46,203 @@
       />
     </div>
   </form>
+  <form class="left" [formGroup]="rangeForm" target="_blank" method="get">
+    <div class="totalAcresRange">
+      <label for="fromTotalAcres">From Total Acres:</label>
+      <input
+        type="number"
+        id="fromTotalAcres"
+        formControlName="fromTotalAcres"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalAcres">To Total Acres:</label>
+      <input
+        type="number"
+        id="toTotalAcres"
+        formControlName="toTotalAcres"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+    <div class="assessedTotal2024Range">
+      <label for="from2024AssessedTotal">From Assessed Total 2024:</label>
+      <input
+        type="number"
+        id="from2024AssessedTotal"
+        formControlName="from2024AssessedTotal"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="to2024AssessedTotal">To Assessed Total 2024:</label>
+      <input
+        type="number"
+        id="to2024AssessedTotal"
+        formControlName="to2024AssessedTotal"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+    <div class="appraisedValue2024Range">
+      <label for="from2024AppraisedValue">From 2024 Appraised Value:</label>
+      <input
+        type="number"
+        id="from2024AppraisedValue"
+        formControlName="from2024AppraisedValue"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="to2024AppraisedValue">To 2024 Appraised Value:</label>
+      <input
+        type="number"
+        id="to2024AppraisedValue"
+        formControlName="to2024AppraisedValue"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Number of Years with Unpaid Taxes Range Fields -->
+    <div class="numberOfYearsWithUnpaidTaxesRange">
+      <label for="fromNumberOfYearsWithUnpaidTaxes">From Number of Years with Unpaid Taxes:</label>
+      <input
+        type="number"
+        id="fromNumberOfYearsWithUnpaidTaxes"
+        formControlName="fromNumberOfYearsWithUnpaidTaxes"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toNumberOfYearsWithUnpaidTaxes">To Number of Years with Unpaid Taxes:</label>
+      <input
+        type="number"
+        id="toNumberOfYearsWithUnpaidTaxes"
+        formControlName="toNumberOfYearsWithUnpaidTaxes"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Taxes Range Fields -->
+    <div class="totalTaxesRange">
+      <label for="fromTotalTaxes">From Total Taxes:</label>
+      <input
+        type="number"
+        id="fromTotalTaxes"
+        formControlName="fromTotalTaxes"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalTaxes">To Total Taxes:</label>
+      <input
+        type="number"
+        id="toTotalTaxes"
+        formControlName="toTotalTaxes"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Interest Range Fields -->
+    <div class="totalInterestRange">
+      <label for="fromTotalInterest">From Total Interest:</label>
+      <input
+        type="number"
+        id="fromTotalInterest"
+        formControlName="fromTotalInterest"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalInterest">To Total Interest:</label>
+      <input
+        type="number"
+        id="toTotalInterest"
+        formControlName="toTotalInterest"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Penalties Range Fields -->
+    <div class="totalPenaltiesRange">
+      <label for="fromTotalPenalties">From Total Penalties:</label>
+      <input
+        type="number"
+        id="fromTotalPenalties"
+        formControlName="fromTotalPenalties"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalPenalties">To Total Penalties:</label>
+      <input
+        type="number"
+        id="toTotalPenalties"
+        formControlName="toTotalPenalties"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Amount Due Range Fields -->
+    <div class="totalAmountDueRange">
+      <label for="fromTotalAmountDue">From Total Amount Due:</label>
+      <input
+        type="number"
+        id="fromTotalAmountDue"
+        formControlName="fromTotalAmountDue"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalAmountDue">To Total Amount Due:</label>
+      <input
+        type="number"
+        id="toTotalAmountDue"
+        formControlName="toTotalAmountDue"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Amount Due Over Appraised Value 2024 Range Fields -->
+    <div class="totalAmountDueOverAppraisedValue2024Range">
+      <label for="fromTotalAmountDueOverAppraisedValue2024">From Total Amount Due Over Appraised Value 2024:</label>
+      <input
+        type="number"
+        id="fromTotalAmountDueOverAppraisedValue2024"
+        formControlName="fromTotalAmountDueOverAppraisedValue2024"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalAmountDueOverAppraisedValue2024">To Total Amount Due Over Appraised Value 2024:</label>
+      <input
+        type="number"
+        id="toTotalAmountDueOverAppraisedValue2024"
+        formControlName="toTotalAmountDueOverAppraisedValue2024"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Amount Due Over Assessed Total 2024 Range Fields -->
+    <div class="totalAmountDueOverAssessedTotal2024Range">
+      <label for="fromTotalAmountDueOverAssessedTotal2024">From Total Amount Due Over Assessed Total 2024:</label>
+      <input
+        type="number"
+        id="fromTotalAmountDueOverAssessedTotal2024"
+        formControlName="fromTotalAmountDueOverAssessedTotal2024"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalAmountDueOverAssessedTotal2024">To Total Amount Due Over Assessed Total 2024:</label>
+      <input
+        type="number"
+        id="toTotalAmountDueOverAssessedTotal2024"
+        formControlName="toTotalAmountDueOverAssessedTotal2024"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+
+    <!-- Total Taxes Plus Total Sewer Lateral Fee Range Fields -->
+    <div class="totalTaxesPlusTotalSewerLateralFeeRange">
+      <label for="fromTotalTaxesPlusTotalSewerLateralFee">From Total Taxes Plus Total Sewer Lateral Fee:</label>
+      <input
+        type="number"
+        id="fromTotalTaxesPlusTotalSewerLateralFee"
+        formControlName="fromTotalTaxesPlusTotalSewerLateralFee"
+        (keydown.enter)="submitForm()"
+      />
+      <label for="toTotalTaxesPlusTotalSewerLateralFee">To Total Taxes Plus Total Sewer Lateral Fee:</label>
+      <input
+        type="number"
+        id="toTotalTaxesPlusTotalSewerLateralFee"
+        formControlName="toTotalTaxesPlusTotalSewerLateralFee"
+        (keydown.enter)="submitForm()"
+      />
+    </div>
+    <div *ngFor="let errorKey of getRangeErrorKeys()">
+      <div class="error">{{ rangeFormErrors[errorKey] }}</div>
+    </div>
+  </form>
   <div class="btns">
     <button id="submit" type="submit" class="button-89" (click)="submitForm()">
       Submit
