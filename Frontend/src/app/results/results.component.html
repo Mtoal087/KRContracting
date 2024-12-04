@@ -259,7 +259,7 @@
 </div>
 
 <!-- Table -->
-<div class="table" style="overflow-x: auto; white-space: nowrap">
+<div class="table" style="overflow-x: auto; white-space: nowrap" *ngIf="dataArray && dataArray.length >0; else noResults">
   <table>
     <thead>
       <tr>
@@ -306,7 +306,12 @@
       <tr *ngFor="let item of dataArray; trackBy: trackByFn">
         <td>{{ displayValue(item.CityName) }}</td>
         <td>{{ displayValue(item.OwnersName) }}</td>
-        <td>{{ displayValue(item.MailingAddress) }}</td>
+        <td *ngIf="displayValue(item.MailingAddress) === 'Same as the taxing address.'; else otherAddress">
+          {{ displayValue(item.TaxingAddress) }}
+        </td>
+        <ng-template #otherAddress>
+          <td>{{ displayValue(item.MailingAddress) }}</td>
+        </ng-template>
         <td>{{ displayValue(item.SchoolDistrict) }}</td>
         <td>{{ displayValue(item.LocatorNumber) }}</td>
         <td>{{ displayValue(item.LotDimensions) }}</td>
@@ -316,10 +321,30 @@
         <td>{{ displayValue(item.SubdivisionName) }}</td>
         <td>{{ displayValue(item.TaxDistrict) }}</td>
         <td>{{ displayValue(item.NumberOfYearsWithUnpaidTaxes) }}</td>
-        <td>{{ displayValue(item.TotalInterest) }}</td>
-        <td>{{ displayValue(item.TotalPenalties) }}</td>
-        <td>{{ displayValue(item.TotalSewerLateralFee) }}</td>
-        <td>{{ displayValue(item.TotalTaxes) }}</td>
+        <td *ngIf="displayValue(item.TotalInterest) === 'None'; else otherTotalInterest">
+          {{ displayValue(item.TotalInterest) }}
+        </td>
+        <ng-template #otherTotalInterest>
+          <td>{{ '$' + displayValue(item.TotalInterest) }}</td>
+        </ng-template>             
+        <td *ngIf="displayValue(item.TotalPenalties) === 'None'; else otherTotalPenalties">
+          {{ displayValue(item.TotalPenalties) }}
+        </td>
+        <ng-template #otherTotalPenalties>
+          <td>{{ '$' + displayValue(item.TotalPenalties) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalSewerLateralFee) === 'None'; else otherTotalSewerLateralFee">
+          {{ displayValue(item.TotalSewerLateralFee) }}
+        </td>
+        <ng-template #otherTotalSewerLateralFee>
+          <td>{{ '$' + displayValue(item.TotalSewerLateralFee) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalTaxes) === 'None'; else otherTotalTaxes">
+          {{ displayValue(item.TotalTaxes) }}
+        </td>
+        <ng-template #otherTotalTaxes>
+          <td>{{ '$' + displayValue(item.TotalTaxes) }}</td>
+        </ng-template>
         <td>{{ displayValue(item.TaxYear) }}</td>
         <td>{{ displayValue(item.CityCode) }}</td>
         <td>{{ displayValue(item.DestinationCode) }}</td>
@@ -332,14 +357,29 @@
         <td>{{ displayValue(item.TaxCodeDescritpion) }}</td>
         <td>{{ displayValue(item.DeedDocumentNumber) }}</td>
         <td>{{ displayValue(item.CountyCouncilDistrict) }}</td>
-        <td>{{ displayValue(item.AppraisedValue2024) }}</td>
-        <td>{{ displayValue(item.AssessedTotal2024) }}</td>
-        <td>{{ displayValue(item.TotalAmmountDue) }}</td>
+        <td *ngIf="displayValue(item.AppraisedValue2024) === 'None'; else otherAppraisedValue2024">
+          {{ displayValue(item.AppraisedValue2024) }}
+        </td>
+        <ng-template #otherAppraisedValue2024>
+          <td>{{ '$' + displayValue(item.AppraisedValue2024) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.AssessedTotal2024) === 'None'; else otherAssessedTotal2024">
+          {{ displayValue(item.AssessedTotal2024) }}
+        </td>
+        <ng-template #otherAssessedTotal2024>
+          <td>{{ '$' + displayValue(item.AssessedTotal2024) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalAmmountDue) === 'None'; else otherTotalAmmountDue">
+          {{ displayValue(item.TotalAmmountDue) }}
+        </td>
+        <ng-template #otherTotalAmmountDue>
+          <td>{{ '$' + displayValue(item.TotalAmmountDue) }}</td>
+        </ng-template>
         <td>{{ displayValue(item.IsParcelOnPostThirdsList) }}</td>
         <td>{{ displayValue(item.IsGoingToBeOnPostThirdList) }}</td>
         <td>
           <a *ngIf="isLink(item.MapLink)" [href]="item.MapLink" target="_blank">
-            {{ displayValue(item.MapLink) }}
+            Map Link
           </a>
           <span *ngIf="!isLink(item.MapLink)">None</span>
         </td>
@@ -351,8 +391,12 @@
   </table>
 </div>
 
+<ng-template #noResults>
+  <h1 class="noResults">No Results</h1>
+</ng-template>
+
 <!-- Pagination Controls -->
-<div class="pagination">
+<div class="pagination" *ngIf="dataArray && dataArray.length > 0">
   <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
     Previous
   </button>

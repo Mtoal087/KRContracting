@@ -107,7 +107,7 @@ th {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10vh;
 }
 
 .pagination button {
@@ -140,4 +140,9 @@ th {
 .pagination span {
   margin: 0 10px;
   font-size: 16px;
+}
+
+.noResults {
+  font-size: 50px;
+  padding-left: 20px;
 }
