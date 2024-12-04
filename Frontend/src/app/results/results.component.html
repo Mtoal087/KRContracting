@@ -1,260 +1,13 @@
-<a href="/home">&LeftArrow; Back To Home</a>
-
-<!-- Filters -->
-<div class="filters">
-  <!-- Section: Basic Filters -->
-  <div class="filter-section">
-    <h2>Basic Filters</h2>
-    <label>
-      City Name:
-      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="cityName" />
-    </label>
-    <label>
-      City Code:
-      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="cityCode" />
-    </label>
-    <label>
-      Land Use Code:
-      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="landUseCode" />
-    </label>
-    <label>
-      School District:
-      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="schoolDistrict" />
-    </label>
-    <label>
-      Property Class:
-      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="propertyClass" />
-    </label>
-  </div>
-
-  <!-- Section: Range Filters -->
-  <div class="filter-section">
-    <h2>Range Filters</h2>
-    <!-- Total Acres Range Fields -->
-    <label class="range-label">
-      Total Acres:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalAcres"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalAcres"
-        />
-      </div>
-    </label>
-
-    <!-- Assessed Total 2024 Range Fields -->
-    <label class="range-label">
-      Assessed Total 2024:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="from2024AssessedTotal"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="to2024AssessedTotal"
-        />
-      </div>
-    </label>
-
-    <!-- Appraised Value 2024 Range Fields -->
-    <label class="range-label">
-      Appraised Value 2024:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="from2024AppraisedValue"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="to2024AppraisedValue"
-        />
-      </div>
-    </label>
-
-    <!-- Number of Years with Unpaid Taxes Range Fields -->
-    <label class="range-label">
-      Number of Years with Unpaid Taxes:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromNumberOfYearsWithUnpaidTaxes"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toNumberOfYearsWithUnpaidTaxes"
-        />
-      </div>
-    </label>
-
-    <!-- Total Taxes Range Fields -->
-    <label class="range-label">
-      Total Taxes:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalTaxes"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalTaxes"
-        />
-      </div>
-    </label>
-
-    <!-- Total Interest Range Fields -->
-    <label class="range-label">
-      Total Interest:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalInterest"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalInterest"
-        />
-      </div>
-    </label>
-
-    <!-- Total Penalties Range Fields -->
-    <label class="range-label">
-      Total Penalties:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalPenalties"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalPenalties"
-        />
-      </div>
-    </label>
-
-    <!-- Total Amount Due Range Fields -->
-    <label class="range-label">
-      Total Amount Due:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalAmountDue"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalAmountDue"
-        />
-      </div>
-    </label>
-
-    <!-- Total Amount Due Over Appraised Value 2024 Range Fields -->
-    <label class="range-label">
-      Total Amount Due / Appraised Value 2024:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalAmountDueOverAppraisedValue2024"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalAmountDueOverAppraisedValue2024"
-        />
-      </div>
-    </label>
-
-    <!-- Total Amount Due Over Assessed Total 2024 Range Fields -->
-    <label class="range-label">
-      Total Amount Due / Assessed Total 2024:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalAmountDueOverAssessedTotal2024"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalAmountDueOverAssessedTotal2024"
-        />
-      </div>
-    </label>
-
-    <!-- Total Taxes Plus Total Sewer Lateral Fee Range Fields -->
-    <label class="range-label">
-      Total Taxes + Total Sewer Lateral Fee:
-      <div class="range-inputs">
-        <input
-          type="number"
-          placeholder="From"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="fromTotalTaxesPlusTotalSewerLateralFee"
-        />
-        <span class="range-separator">-</span>
-        <input
-          type="number"
-          placeholder="To"
-          (keydown.enter)="fetchData()"
-          [(ngModel)]="toTotalTaxesPlusTotalSewerLateralFee"
-        />
-      </div>
-    </label>
-  </div>
-</div>
+<app-filters-modal
+  *ngIf="isModalOpen"
+  [filters]="filters"
+  (filtersUpdated)="updateFilters($event)"
+  (close)="closeModal()"
+></app-filters-modal>
 
 <!-- Apply and Reset Buttons -->
 <div class="buttonFilter">
-  <button class="button" (click)="fetchData()">Apply<span></span></button>
+  <button class="button orange" (click)="openModal()">Open Filters<span></span></button>
   <button class="button red" (click)="resetFilters()">Reset<span></span></button>
 </div>
 
@@ -306,7 +59,12 @@
       <tr *ngFor="let item of dataArray; trackBy: trackByFn">
         <td>{{ displayValue(item.CityName) }}</td>
         <td>{{ displayValue(item.OwnersName) }}</td>
-        <td>{{ displayValue(item.MailingAddress) }}</td>
+        <td *ngIf="displayValue(item.MailingAddress) === 'Same as the taxing address.'; else otherAddress">
+          {{ displayValue(item.TaxingAddress) }}
+        </td>
+        <ng-template #otherAddress>
+          <td>{{ displayValue(item.MailingAddress) }}</td>
+        </ng-template>
         <td>{{ displayValue(item.SchoolDistrict) }}</td>
         <td>{{ displayValue(item.LocatorNumber) }}</td>
         <td>{{ displayValue(item.LotDimensions) }}</td>
@@ -316,10 +74,30 @@
         <td>{{ displayValue(item.SubdivisionName) }}</td>
         <td>{{ displayValue(item.TaxDistrict) }}</td>
         <td>{{ displayValue(item.NumberOfYearsWithUnpaidTaxes) }}</td>
-        <td>{{ displayValue(item.TotalInterest) }}</td>
-        <td>{{ displayValue(item.TotalPenalties) }}</td>
-        <td>{{ displayValue(item.TotalSewerLateralFee) }}</td>
-        <td>{{ displayValue(item.TotalTaxes) }}</td>
+        <td *ngIf="displayValue(item.TotalInterest) === 'None'; else otherTotalInterest">
+          {{ displayValue(item.TotalInterest) }}
+        </td>
+        <ng-template #otherTotalInterest>
+          <td>{{ '$' + displayValue(item.TotalInterest) }}</td>
+        </ng-template>             
+        <td *ngIf="displayValue(item.TotalPenalties) === 'None'; else otherTotalPenalties">
+          {{ displayValue(item.TotalPenalties) }}
+        </td>
+        <ng-template #otherTotalPenalties>
+          <td>{{ '$' + displayValue(item.TotalPenalties) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalSewerLateralFee) === 'None'; else otherTotalSewerLateralFee">
+          {{ displayValue(item.TotalSewerLateralFee) }}
+        </td>
+        <ng-template #otherTotalSewerLateralFee>
+          <td>{{ '$' + displayValue(item.TotalSewerLateralFee) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalTaxes) === 'None'; else otherTotalTaxes">
+          {{ displayValue(item.TotalTaxes) }}
+        </td>
+        <ng-template #otherTotalTaxes>
+          <td>{{ '$' + displayValue(item.TotalTaxes) }}</td>
+        </ng-template>
         <td>{{ displayValue(item.TaxYear) }}</td>
         <td>{{ displayValue(item.CityCode) }}</td>
         <td>{{ displayValue(item.DestinationCode) }}</td>
@@ -332,20 +110,50 @@
         <td>{{ displayValue(item.TaxCodeDescritpion) }}</td>
         <td>{{ displayValue(item.DeedDocumentNumber) }}</td>
         <td>{{ displayValue(item.CountyCouncilDistrict) }}</td>
-        <td>{{ displayValue(item.AppraisedValue2024) }}</td>
-        <td>{{ displayValue(item.AssessedTotal2024) }}</td>
-        <td>{{ displayValue(item.TotalAmmountDue) }}</td>
+        <td *ngIf="displayValue(item.AppraisedValue2024) === 'None'; else otherAppraisedValue2024">
+          {{ displayValue(item.AppraisedValue2024) }}
+        </td>
+        <ng-template #otherAppraisedValue2024>
+          <td>{{ '$' + displayValue(item.AppraisedValue2024) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.AssessedTotal2024) === 'None'; else otherAssessedTotal2024">
+          {{ displayValue(item.AssessedTotal2024) }}
+        </td>
+        <ng-template #otherAssessedTotal2024>
+          <td>{{ '$' + displayValue(item.AssessedTotal2024) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalAmmountDue) === 'None'; else otherTotalAmmountDue">
+          {{ displayValue(item.TotalAmmountDue) }}
+        </td>
+        <ng-template #otherTotalAmmountDue>
+          <td>{{ '$' + displayValue(item.TotalAmmountDue) }}</td>
+        </ng-template>
         <td>{{ displayValue(item.IsParcelOnPostThirdsList) }}</td>
         <td>{{ displayValue(item.IsGoingToBeOnPostThirdList) }}</td>
         <td>
           <a *ngIf="isLink(item.MapLink)" [href]="item.MapLink" target="_blank">
-            {{ displayValue(item.MapLink) }}
+            Map Link
           </a>
           <span *ngIf="!isLink(item.MapLink)">None</span>
         </td>
-        <td>{{ displayValue(item.TotalAmountDueOverAppraisedValue2024) }}</td>
-        <td>{{ displayValue(item.TotalAmountDueOverAssessedTotal2024) }}</td>
-        <td>{{ displayValue(item.TotalTaxesPlusTotalSewerLateralFee) }}</td>
+        <td *ngIf="displayValue(item.TotalAmountDueOverAppraisedValue2024) === 'None'; else otherTotalAmountDueOverAppraisedValue2024">
+          {{ displayValue(item.TotalAmountDueOverAppraisedValue2024) }}
+        </td>
+        <ng-template #otherTotalAmountDueOverAppraisedValue2024>
+          <td>{{ '$' + displayValue(item.TotalAmountDueOverAppraisedValue2024) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalAmountDueOverAssessedTotal2024) === 'None'; else otherTotalAmountDueOverAssessedTotal2024">
+          {{ displayValue(item.TotalAmountDueOverAssessedTotal2024) }}
+        </td>
+        <ng-template #otherTotalAmountDueOverAssessedTotal2024>
+          <td>{{ '$' + displayValue(item.TotalAmountDueOverAssessedTotal2024) }}</td>
+        </ng-template>
+        <td *ngIf="displayValue(item.TotalTaxesPlusTotalSewerLateralFee) === 'None'; else otherTotalTaxesPlusTotalSewerLateralFee">
+          {{ displayValue(item.TotalTaxesPlusTotalSewerLateralFee) }}
+        </td>
+        <ng-template #otherTotalTaxesPlusTotalSewerLateralFee>
+          <td>{{ '$' + displayValue(item.TotalTaxesPlusTotalSewerLateralFee) }}</td>
+        </ng-template>
       </tr>
     </tbody>
   </table>

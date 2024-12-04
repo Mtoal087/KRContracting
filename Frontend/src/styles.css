@@ -5,6 +5,7 @@
   --light-green: #c4dad2;
   --white: #e9efec;
   --dark-green: #16423c;
+  --orange: #CD4400
 }
 
 * {
@@ -45,12 +46,6 @@ button {
 
 }
 
-.red {
-  color: maroon;
-
-}
-
-
 .button span {
   position: absolute;
   left: 0;
@@ -60,10 +55,6 @@ button {
   background: transparent;
   z-index: -1;
   border: 4px solid var(--green);
-}
-
-.red span {
-  border: 4px solid maroon;
 }
 
 .button span::before {
@@ -85,10 +76,6 @@ button {
   background: var(--green);
 }
 
-.red:hover span::before {
-  background: maroon;
-}
-
 .button:hover {
   color: var(--white);
 }
@@ -97,6 +84,34 @@ button {
   background: var(--green);
 }
 
+.red {
+  color: maroon;
+}
+
+.red span {
+  border: 4px solid maroon;
+}
+
+.red:hover span::before {
+  background: maroon;
+}
+
 .red:active span::before {
   background: maroon;
+}
+
+.orange {
+  color: var(--orange);
+}
+
+.orange span {
+  border: 4px solid var(--orange);
+}
+
+.orange:hover span::before {
+  background: var(--orange);
+}
+
+.orange:active span::before {
+  background: var(--orange);
 }

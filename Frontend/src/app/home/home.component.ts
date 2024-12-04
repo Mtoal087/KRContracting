@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
 import { Title } from '@angular/platform-browser';
-import { FormComponent } from './form/form.component';
+import { FormComponent } from '../form/form.component';
 
 @Component({
   selector: 'app-home',

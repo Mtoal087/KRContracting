@@ -74,7 +74,7 @@ export class FormComponent {
       }
     })
 
-    this.router.navigate(['/results'], { queryParams });
+    this.router.navigate(['/search'], { queryParams });
   }
 
   resetForm() {
@@ -89,16 +89,16 @@ export class FormComponent {
   
     const rangeFields = [
       { from: 'fromTotalAcres', to: 'toTotalAcres', name: 'Total Acres' },
-    { from: 'from2024AppraisedValue', to: 'to2024AppraisedValue', name: '2024 Appraised Value' },
-    { from: 'from2024AssessedTotal', to: 'to2024AssessedTotal', name: '2024 Assessed Total' },
-    { from: 'fromNumberOfYearsWithUnpaidTaxes', to: 'toNumberOfYearsWithUnpaidTaxes', name: 'Number Of Years With Unpaid Taxes' },
-    { from: 'fromTotalTaxes', to: 'toTotalTaxes', name: 'Total Taxes' },
-    { from: 'fromTotalInterest', to: 'toTotalInterest', name: 'Total Interest' },
-    { from: 'fromTotalPenalties', to: 'toTotalPenalties', name: 'Total Penalties' },
-    { from: 'fromTotalAmountDue', to: 'toTotalAmountDue', name: 'Total Amount Due' },
-    { from: 'fromTotalAmountDueOverAppraisedValue2024', to: 'toTotalAmountDueOverAppraisedValue2024', name: 'Total Amount Due Over Appraised Value 2024' },
-    { from: 'fromTotalAmountDueOverAssessedTotal2024', to: 'toTotalAmountDueOverAssessedTotal2024', name: 'Total Amount Due Over Assessed Total 2024' },
-    { from: 'fromTotalTaxesPlusTotalSewerLateralFee', to: 'toTotalTaxesPlusTotalSewerLateralFee', name: 'Total Taxes Plus Total Sewer Lateral Fee' }
+      { from: 'from2024AppraisedValue', to: 'to2024AppraisedValue', name: '2024 Appraised Value' },
+      { from: 'from2024AssessedTotal', to: 'to2024AssessedTotal', name: '2024 Assessed Total' },
+      { from: 'fromNumberOfYearsWithUnpaidTaxes', to: 'toNumberOfYearsWithUnpaidTaxes', name: 'Number Of Years With Unpaid Taxes' },
+      { from: 'fromTotalTaxes', to: 'toTotalTaxes', name: 'Total Taxes' },
+      { from: 'fromTotalInterest', to: 'toTotalInterest', name: 'Total Interest' },
+      { from: 'fromTotalPenalties', to: 'toTotalPenalties', name: 'Total Penalties' },
+      { from: 'fromTotalAmountDue', to: 'toTotalAmountDue', name: 'Total Amount Due' },
+      { from: 'fromTotalAmountDueOverAppraisedValue2024', to: 'toTotalAmountDueOverAppraisedValue2024', name: 'Total Amount Due Over Appraised Value 2024' },
+      { from: 'fromTotalAmountDueOverAssessedTotal2024', to: 'toTotalAmountDueOverAssessedTotal2024', name: 'Total Amount Due Over Assessed Total 2024' },
+      { from: 'fromTotalTaxesPlusTotalSewerLateralFee', to: 'toTotalTaxesPlusTotalSewerLateralFee', name: 'Total Taxes Plus Total Sewer Lateral Fee' }
     ];
 
     rangeFields.forEach((field) => {

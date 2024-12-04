@@ -1,0 +1,265 @@
+<div class="custom-modal">
+    <div class="custom-modal-content">
+        <div class="head">
+            <h2>Filters</h2>
+            <button class="close-btn" (click)="closeModal()">&times;</button>
+        </div>
+        <form (ngSubmit)="applyFilters()">
+        <!-- Filter Inputs -->
+            <app-form/>
+        </form>
+    </div>
+</div>
+
+
+<!--
+
+<div class="filters">
+  <div class="filter-section">
+    <h2>Basic Filters</h2>
+    <label>
+      City Name:
+      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="cityName" />
+    </label>
+    <label>
+      City Code:
+      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="cityCode" />
+    </label>
+    <label>
+      Land Use Code:
+      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="landUseCode" />
+    </label>
+    <label>
+      School District:
+      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="schoolDistrict" />
+    </label>
+    <label>
+      Property Class:
+      <input type="text" (keydown.enter)="fetchData()" [(ngModel)]="propertyClass" />
+    </label>
+  </div>
+
+  Section: Range Filters 
+  <div class="filter-section">
+    <h2>Range Filters</h2>
+    <label class="range-label">
+      Total Acres:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalAcres"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalAcres"
+        />
+      </div>
+    </label>
+
+    <label class="range-label">
+      Assessed Total 2024:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="from2024AssessedTotal"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="to2024AssessedTotal"
+        />
+      </div>
+    </label>
+
+    <!-- Appraised Value 2024 Range Fields 
+    <label class="range-label">
+      Appraised Value 2024:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="from2024AppraisedValue"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="to2024AppraisedValue"
+        />
+      </div>
+    </label>
+
+    <!-- Number of Years with Unpaid Taxes Range Fields 
+    <label class="range-label">
+      Number of Years with Unpaid Taxes:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromNumberOfYearsWithUnpaidTaxes"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toNumberOfYearsWithUnpaidTaxes"
+        />
+      </div>
+    </label>
+
+    <!-- Total Taxes Range Fields 
+    <label class="range-label">
+      Total Taxes:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalTaxes"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalTaxes"
+        />
+      </div>
+    </label>
+
+    <!-- Total Interest Range Fields 
+    <label class="range-label">
+      Total Interest:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalInterest"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalInterest"
+        />
+      </div>
+    </label>
+
+    <!-- Total Penalties Range Fields 
+    <label class="range-label">
+      Total Penalties:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalPenalties"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalPenalties"
+        />
+      </div>
+    </label>
+
+    <!-- Total Amount Due Range Fields 
+    <label class="range-label">
+      Total Amount Due:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalAmountDue"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalAmountDue"
+        />
+      </div>
+    </label>
+
+    <!-- Total Amount Due Over Appraised Value 2024 Range Fields 
+    <label class="range-label">
+      Total Amount Due / Appraised Value 2024:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalAmountDueOverAppraisedValue2024"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalAmountDueOverAppraisedValue2024"
+        />
+      </div>
+    </label>
+
+    <!-- Total Amount Due Over Assessed Total 2024 Range Fields --
+    <label class="range-label">
+      Total Amount Due / Assessed Total 2024:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalAmountDueOverAssessedTotal2024"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalAmountDueOverAssessedTotal2024"
+        />
+      </div>
+    </label>
+
+    <!-- Total Taxes Plus Total Sewer Lateral Fee Range Fields --
+    <label class="range-label">
+      Total Taxes + Total Sewer Lateral Fee:
+      <div class="range-inputs">
+        <input
+          type="number"
+          placeholder="From"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="fromTotalTaxesPlusTotalSewerLateralFee"
+        />
+        <span class="range-separator">-</span>
+        <input
+          type="number"
+          placeholder="To"
+          (keydown.enter)="fetchData()"
+          [(ngModel)]="toTotalTaxesPlusTotalSewerLateralFee"
+        />
+      </div>
+    </label>
+  </div>
+</div>
+
+-->

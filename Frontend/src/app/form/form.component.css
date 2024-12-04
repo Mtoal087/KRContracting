@@ -120,7 +120,7 @@
 
   .btns {
     flex-direction: column;
-    align-items: stretch;
+    gap: 0;
   }
 
   .button,
