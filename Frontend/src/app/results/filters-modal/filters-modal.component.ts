@@ -10,16 +10,28 @@ import { FormComponent } from '../../form/form.component';
   styleUrl: './filters-modal.component.css'
 })
 export class FiltersModalComponent {
-  @Input() filters: any = {}; // Filters passed from the parent
-  @Output() filtersUpdated = new EventEmitter<any>(); // Emit updated filters to the parent
-  @Output() close = new EventEmitter<void>(); // Emit an event to close the modal
+  @Input() filters: any = {};
+  @Output() filtersUpdated = new EventEmitter<any>();
+  @Output() close = new EventEmitter<void>();
+  formFilters: any;
+
+  constructor() {
+    console.log(this.filters)  
+  }
+
+  filtersFromForm(newFilters: any) {
+    this.formFilters = newFilters;
+    this.filters = { ...this.filters, ...this.formFilters }
+    console.log('filters from form:', this.filters)
+    this.applyFilters();
+  }
 
   applyFilters() {
-    this.filtersUpdated.emit(this.filters); // Pass updated filters back
+    this.filtersUpdated.emit(this.filters);
     this.closeModal();
   }
 
   closeModal() {
-    this.close.emit(); // Notify the parent to close the modal
+    this.close.emit();
   }
 }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -14,11 +14,15 @@ export class FormComponent {
   sortByForm: FormGroup;
   rangeForm: FormGroup;
   rangeFormErrors: any = {};
+  @Output() modal = new EventEmitter<void>();
+  @Output() params = new EventEmitter<Object>();
+  @Input() currentFilters: any = {};
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
   ) {
+    console.log('constructor:', this.currentFilters)
     this.sortByForm = this.formBuilder.group({
       cityCode: [''],
       cityName: [''],
@@ -46,7 +50,7 @@ export class FormComponent {
       toTotalAmountDue: [''],
       fromTotalAmountDueOverAppraisedValue2024: [''],
       toTotalAmountDueOverAppraisedValue2024: [''],
-      fromTotalAmountDueOverAssessedTotal204: [''],
+      fromTotalAmountDueOverAssessedTotal2024: [''],
       toTotalAmountDueOverAssessedTotal2024: [''],
       fromTotalTaxesPlusTotalSewerLateralFee: [''],
       toTotalTaxesPlusTotalSewerLateralFee: [''],
@@ -73,8 +77,10 @@ export class FormComponent {
         queryParams[field] = value;
       }
     })
-
     this.router.navigate(['/search'], { queryParams });
+    console.log('submit form:', queryParams);
+    this.params.emit(queryParams);
+    this.closeModal()
   }
 
   resetForm() {
@@ -118,6 +124,10 @@ export class FormComponent {
 
   getRangeErrorKeys(): string[] {
     return Object.keys(this.rangeFormErrors);
+  }
+
+  closeModal() {
+    this.modal.emit();
   }
 }
 

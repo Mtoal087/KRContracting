@@ -115,7 +115,7 @@ th {
   color: var(--dark-green);
   border: 1px solid var(--green);
   padding: 8px 12px;
-  margin: 0 4px;
+  margin: 4px 4px 0 4px;
   font-size: 16px;
   cursor: pointer;
 }

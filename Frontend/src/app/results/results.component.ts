@@ -16,7 +16,7 @@ import { FiltersModalComponent } from './filters-modal/filters-modal.component';
   styleUrls: ['./results.component.css'],
 })
 export class ResultsComponent implements OnInit {
-  title: string = 'Results';
+  title: string = 'Search';
   dataArray: any[] = [];
   filters: any = {
     cityCode: '',
@@ -74,7 +74,7 @@ export class ResultsComponent implements OnInit {
   }
 
   fetchData() {
-    console.log(this.filters);
+    console.log('results: fetchData()', this.filters);
     this.database.getFilteredData(this.filters, this.limit, this.offset).subscribe((res: any) => {
       this.dataArray = res.data;
       this.totalRecords = res.totalCount || 0;
@@ -224,6 +224,7 @@ export class ResultsComponent implements OnInit {
   }
 
   updateFilters(newFilters: any) {
+    console.log('results/ updateFilters()', newFilters);
     this.filters = { ...this.filters, ...newFilters };
     this.fetchData();
     this.closeModal();

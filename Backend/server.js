@@ -58,12 +58,12 @@ app.get("/data", (req, res) => {
   }
 
   if (schoolDistrict) {
-    conditions.push("SchoolDistrict = ?");
+    conditions.push("SchoolDistrict LIKE ?");
     conditionParams.push(schoolDistrict);
   }
 
   if (propertyClass) {
-    conditions.push("PropertyClass = ?");
+    conditions.push("PropertyClass LIKE ?");
     conditionParams.push(propertyClass);
   }
 
